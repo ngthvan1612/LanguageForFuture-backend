@@ -3,6 +3,7 @@ using LFF.API.Helpers.Authorization.Middleware;
 using LFF.API.Middleware;
 using LFF.Core.Extensions;
 using LFF.Infrastructure.EF.Extensions;
+using LFF.Infrastructure.EF.Utils.PasswordUtils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
