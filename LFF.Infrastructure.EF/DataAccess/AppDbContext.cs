@@ -1,4 +1,4 @@
-using LFF.Core.Entities;
+﻿using LFF.Core.Entities;
 using LFF.Infrastructure.EF.Configuration;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +31,8 @@ namespace LFF.Infrastructure.EF.DataAccess
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
-            this.Database.EnsureCreated();
+            //Dùng migration, không bật cái này lên
+            //this.Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
