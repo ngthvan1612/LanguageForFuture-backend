@@ -1,4 +1,6 @@
-﻿using LFF.API.Middleware;
+﻿using LFF.API.Helpers;
+using LFF.API.Helpers.Authorization.Middleware;
+using LFF.API.Middleware;
 using LFF.Core.Extensions;
 using LFF.Infrastructure.EF.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -28,11 +30,13 @@ namespace LFF.API
 
             services.AddSwaggerGen(config =>
             {
-                config.SwaggerDoc("admin-controller", new OpenApiInfo() { Title = "API Admin Controller", Version = "v1.0", Description = "Admin và Staff dùng chung"});
+                config.SwaggerDoc("admin-controller", new OpenApiInfo() { Title = "API Admin Controller", Version = "v1.0", Description = "Admin và Staff dùng chung" });
                 config.SwaggerDoc("common-controller", new OpenApiInfo() { Title = "API Common", Version = "v1.0" });
                 config.SwaggerDoc("teacher-controller", new OpenApiInfo() { Title = "API Teacher", Version = "v1.0" });
                 config.SwaggerDoc("student-controller", new OpenApiInfo() { Title = "API Student", Version = "v1.0" });
             });
+
+            services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,15 +46,25 @@ namespace LFF.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials()
+            );
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseMiddleware<GlobalExceptionMiddleware>();
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseSwagger();
+
+            app.UseMiddleware<GlobalExceptionMiddleware>();
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/admin-controller/swagger.json", "Admin API");
