@@ -22,13 +22,6 @@ namespace LFF.API.Controllers.Student
             this._registerService = registerService;
         }
 
-        [HttpPost("")]
-        public async Task<IActionResult> CreateRegister(CreateRegisterRequest model)
-        {
-            var result = await this._registerService.CreateRegisterAsync(model);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
         [HttpGet("")]
         public async Task<IActionResult> ListRegisters()
         {
@@ -41,20 +34,6 @@ namespace LFF.API.Controllers.Student
         public async Task<IActionResult> GetRegister(Guid id)
         {
             var result = await this._registerService.GetRegisterByIdAsync(id);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateRegister(Guid id, UpdateRegisterRequest model)
-        {
-            var result = await this._registerService.UpdateRegisterByIdAsync(id, model);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteRegister(Guid id)
-        {
-            var result = await this._registerService.DeleteRegisterByIdAsync(id);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
     }

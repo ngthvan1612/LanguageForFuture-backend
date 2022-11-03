@@ -22,13 +22,6 @@ namespace LFF.API.Controllers.Student
             this._questionService = questionService;
         }
 
-        [HttpPost("")]
-        public async Task<IActionResult> CreateQuestion(CreateQuestionRequest model)
-        {
-            var result = await this._questionService.CreateQuestionAsync(model);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
         [HttpGet("")]
         public async Task<IActionResult> ListQuestions()
         {
@@ -41,20 +34,6 @@ namespace LFF.API.Controllers.Student
         public async Task<IActionResult> GetQuestion(Guid id)
         {
             var result = await this._questionService.GetQuestionByIdAsync(id);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateQuestion(Guid id, UpdateQuestionRequest model)
-        {
-            var result = await this._questionService.UpdateQuestionByIdAsync(id, model);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteQuestion(Guid id)
-        {
-            var result = await this._questionService.DeleteQuestionByIdAsync(id);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
     }

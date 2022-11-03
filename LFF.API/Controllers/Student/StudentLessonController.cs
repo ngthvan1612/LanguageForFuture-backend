@@ -22,13 +22,6 @@ namespace LFF.API.Controllers.Student
             this._lessonService = lessonService;
         }
 
-        [HttpPost("")]
-        public async Task<IActionResult> CreateLesson(CreateLessonRequest model)
-        {
-            var result = await this._lessonService.CreateLessonAsync(model);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
         [HttpGet("")]
         public async Task<IActionResult> ListLessons()
         {
@@ -41,20 +34,6 @@ namespace LFF.API.Controllers.Student
         public async Task<IActionResult> GetLesson(Guid id)
         {
             var result = await this._lessonService.GetLessonByIdAsync(id);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateLesson(Guid id, UpdateLessonRequest model)
-        {
-            var result = await this._lessonService.UpdateLessonByIdAsync(id, model);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteLesson(Guid id)
-        {
-            var result = await this._lessonService.DeleteLessonByIdAsync(id);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
     }
