@@ -37,6 +37,7 @@ namespace LFF.API
             });
 
             services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
+            services.Configure<PasswordSettings>(options => Configuration.GetSection("StorePasswordSetting").Bind(options));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
