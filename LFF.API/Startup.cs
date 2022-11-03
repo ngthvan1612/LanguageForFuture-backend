@@ -44,6 +44,7 @@ namespace LFF.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
             }
 
             app.UseCors(builder => builder
@@ -60,8 +61,6 @@ namespace LFF.API
             app.UseAuthorization();
 
             app.UseMiddleware<JwtMiddleware>();
-
-            app.UseSwagger();
 
             app.UseMiddleware<GlobalExceptionMiddleware>();
 
