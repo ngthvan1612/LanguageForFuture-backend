@@ -10,6 +10,7 @@ namespace LFF.Core.Repositories
         Task<User> GetUserByUsernameAsync(string username);
         Task<User> GetUserByEmailAsync(string email);
         Task<User> GetUserByCMNDAsync(string cMND);
+        Task<User> GetUserByUsernameAndPassword(string username, string password);
         Task<bool> CheckUserExistedByIdAsync(Guid id);
         Task<bool> CheckUserExistedByUsernameAsync(string username);
         Task<bool> CheckUserExistedByUsernameExceptIdAsync(Guid id, string username);
