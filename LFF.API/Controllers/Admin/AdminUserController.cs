@@ -9,8 +9,6 @@ namespace LFF.API.Controllers.Admin
 {
     [ApiController]
     [Route("api/v1.0/admin/user")]
-    [//Authorize("")]
-  [ApiExplorerSettings(GroupName = "admin-controller")]
     public class AdminUserController : ControllerBase
     {
         private readonly IUserService _userService;

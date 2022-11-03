@@ -9,8 +9,6 @@ namespace LFF.API.Controllers.Admin
 {
     [ApiController]
     [Route("api/v1.0/admin/question")]
-    [//Authorize("")]
-  [ApiExplorerSettings(GroupName = "admin-controller")]
     public class AdminQuestionController : ControllerBase
     {
         private readonly IQuestionService _questionService;

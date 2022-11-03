@@ -9,8 +9,6 @@ namespace LFF.API.Controllers.Common
 {
     [ApiController]
     [Route("api/v1.0/common/user")]
-    [//Authorize("")]
-  [ApiExplorerSettings(GroupName = "common-controller")]
     public class CommonUserController : ControllerBase
     {
         private readonly IUserService _userService;

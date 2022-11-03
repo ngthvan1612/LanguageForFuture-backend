@@ -9,8 +9,6 @@ namespace LFF.API.Controllers.Student
 {
     [ApiController]
     [Route("api/v1.0/student/register")]
-    [//Authorize("")]
-  [ApiExplorerSettings(GroupName = "student-controller")]
     public class StudentRegisterController : ControllerBase
     {
         private readonly IRegisterService _registerService;
