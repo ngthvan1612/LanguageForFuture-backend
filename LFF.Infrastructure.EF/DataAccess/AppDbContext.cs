@@ -6,7 +6,7 @@ namespace LFF.Infrastructure.EF.DataAccess
 {
     public class AppDbContext : DbContext
     {
-        private static bool isCreated = false;
+        private static readonly bool isCreated = false;
 
         public DbSet<User>? Users { get; set; }
 
