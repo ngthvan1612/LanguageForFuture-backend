@@ -1,12 +1,11 @@
-﻿using System.Threading.Tasks;
-using LFF.API.Helpers;
+﻿using LFF.API.Helpers;
 using LFF.API.Helpers.Authorization;
 using LFF.Core.DTOs.Users.Requests;
 using LFF.Core.DTOs.Users.Responses;
-using LFF.Core.Entities;
 using LFF.Core.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace LFF.API.Controllers.Common
 {
