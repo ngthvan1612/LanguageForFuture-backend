@@ -9,6 +9,7 @@ namespace LFF.API.Controllers.Common
 {
     [ApiController]
     [Route("api/v1.0/common/question")]
+    [ApiExplorerSettings(GroupName = "common-controller")]
     public class CommonQuestionController : ControllerBase
     {
         private readonly IQuestionService _questionService;

@@ -9,6 +9,7 @@ namespace LFF.API.Controllers.Admin
 {
     [ApiController]
     [Route("api/v1.0/admin/lesson")]
+    [ApiExplorerSettings(GroupName = "admin-controller")]
     public class AdminLessonController : ControllerBase
     {
         private readonly ILessonService _lessonService;

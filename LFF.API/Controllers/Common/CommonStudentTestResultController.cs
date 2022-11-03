@@ -9,6 +9,7 @@ namespace LFF.API.Controllers.Common
 {
     [ApiController]
     [Route("api/v1.0/common/studentTestResult")]
+    [ApiExplorerSettings(GroupName = "common-controller")]
     public class CommonStudentTestResultController : ControllerBase
     {
         private readonly IStudentTestResultService _studentTestResultService;

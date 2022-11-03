@@ -9,6 +9,7 @@ namespace LFF.API.Controllers.Teacher
 {
     [ApiController]
     [Route("api/v1.0/teacher/course")]
+    [ApiExplorerSettings(GroupName = "teacher-controller")]
     public class TeacherCourseController : ControllerBase
     {
         private readonly ICourseService _courseService;

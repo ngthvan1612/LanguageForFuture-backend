@@ -9,6 +9,7 @@ namespace LFF.API.Controllers.Admin
 {
     [ApiController]
     [Route("api/v1.0/admin/register")]
+    [ApiExplorerSettings(GroupName = "admin-controller")]
     public class AdminRegisterController : ControllerBase
     {
         private readonly IRegisterService _registerService;

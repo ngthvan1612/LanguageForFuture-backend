@@ -9,6 +9,7 @@ namespace LFF.API.Controllers.Admin
 {
     [ApiController]
     [Route("api/v1.0/admin/lecture")]
+    [ApiExplorerSettings(GroupName = "admin-controller")]
     public class AdminLectureController : ControllerBase
     {
         private readonly ILectureService _lectureService;

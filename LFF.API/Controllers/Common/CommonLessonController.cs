@@ -9,6 +9,7 @@ namespace LFF.API.Controllers.Common
 {
     [ApiController]
     [Route("api/v1.0/common/lesson")]
+    [ApiExplorerSettings(GroupName = "common-controller")]
     public class CommonLessonController : ControllerBase
     {
         private readonly ILessonService _lessonService;
