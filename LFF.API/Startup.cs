@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LFF.API.Middleware;
+﻿using LFF.API.Middleware;
+using LFF.Core.Extensions;
+using LFF.Infrastructure.EF.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
-using LFF.Core.Extensions;
-using LFF.Infrastructure.EF.Extensions;
+using Microsoft.OpenApi.Models;
 
 namespace LFF.API
 {
@@ -32,6 +25,14 @@ namespace LFF.API
             services.RegisterEFDatabase(this.Configuration);
             services.RegisterRepositories(this.Configuration);
             services.RegisterServices(this.Configuration);
+
+            services.AddSwaggerGen(config =>
+            {
+                config.SwaggerDoc("admin-controller", new OpenApiInfo() { Title = "API Admin Controller", Version = "v1.0", Description = "Admin và Staff dùng chung"});
+                config.SwaggerDoc("common-controller", new OpenApiInfo() { Title = "API Common", Version = "v1.0" });
+                config.SwaggerDoc("teacher-controller", new OpenApiInfo() { Title = "API Teacher", Version = "v1.0" });
+                config.SwaggerDoc("student-controller", new OpenApiInfo() { Title = "API Student", Version = "v1.0" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -48,6 +49,15 @@ namespace LFF.API
             app.UseAuthorization();
 
             app.UseMiddleware<GlobalExceptionMiddleware>();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/admin-controller/swagger.json", "Admin API");
+                c.SwaggerEndpoint("/swagger/teacher-controller/swagger.json", "Teacher API");
+                c.SwaggerEndpoint("/swagger/student-controller/swagger.json", "Student API");
+                c.SwaggerEndpoint("/swagger/common-controller/swagger.json", "Common API");
+            });
 
             app.UseEndpoints(endpoints =>
             {
