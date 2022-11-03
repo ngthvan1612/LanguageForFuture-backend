@@ -1,11 +1,11 @@
 using LFF.API.Extensions;
+using LFF.API.Helpers.Authorization;
+using LFF.API.Helpers.Authorization.Users;
 using LFF.Core.DTOs.Registers.Requests;
 using LFF.Core.Services.RegisterServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using LFF.API.Helpers.Authorization;
-using LFF.API.Helpers.Authorization.Users;
 
 namespace LFF.API.Controllers.Admin
 {
