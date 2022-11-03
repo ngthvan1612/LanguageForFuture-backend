@@ -22,13 +22,6 @@ namespace LFF.API.Controllers.Teacher
             this._userService = userService;
         }
 
-        [HttpPost("")]
-        public async Task<IActionResult> CreateUser(CreateUserRequest model)
-        {
-            var result = await this._userService.CreateUserAsync(model);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
         [HttpGet("")]
         public async Task<IActionResult> ListUsers()
         {
@@ -41,20 +34,6 @@ namespace LFF.API.Controllers.Teacher
         public async Task<IActionResult> GetUser(Guid id)
         {
             var result = await this._userService.GetUserByIdAsync(id);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateUser(Guid id, UpdateUserRequest model)
-        {
-            var result = await this._userService.UpdateUserByIdAsync(id, model);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteUser(Guid id)
-        {
-            var result = await this._userService.DeleteUserByIdAsync(id);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
     }
