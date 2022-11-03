@@ -9,6 +9,8 @@ namespace LFF.API.Controllers.Common
 {
     [ApiController]
     [Route("api/v1.0/common/test")]
+    [//Authorize("")]
+  [ApiExplorerSettings(GroupName = "common-controller")]
     public class CommonTestController : ControllerBase
     {
         private readonly ITestService _testService;

@@ -9,6 +9,8 @@ namespace LFF.API.Controllers.Admin
 {
     [ApiController]
     [Route("api/v1.0/admin/studentTest")]
+    [//Authorize("")]
+  [ApiExplorerSettings(GroupName = "admin-controller")]
     public class AdminStudentTestController : ControllerBase
     {
         private readonly IStudentTestService _studentTestService;

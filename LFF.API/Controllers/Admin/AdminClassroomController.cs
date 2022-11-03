@@ -9,6 +9,8 @@ namespace LFF.API.Controllers.Admin
 {
     [ApiController]
     [Route("api/v1.0/admin/classroom")]
+    [//Authorize("")]
+  [ApiExplorerSettings(GroupName = "admin-controller")]
     public class AdminClassroomController : ControllerBase
     {
         private readonly IClassroomService _classroomService;

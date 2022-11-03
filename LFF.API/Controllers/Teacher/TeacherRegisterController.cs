@@ -9,6 +9,8 @@ namespace LFF.API.Controllers.Teacher
 {
     [ApiController]
     [Route("api/v1.0/teacher/register")]
+    [//Authorize("")]
+  [ApiExplorerSettings(GroupName = "teacher-controller")]
     public class TeacherRegisterController : ControllerBase
     {
         private readonly IRegisterService _registerService;

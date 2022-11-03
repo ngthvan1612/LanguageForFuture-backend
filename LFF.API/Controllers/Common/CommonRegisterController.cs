@@ -9,6 +9,8 @@ namespace LFF.API.Controllers.Common
 {
     [ApiController]
     [Route("api/v1.0/common/register")]
+    [//Authorize("")]
+  [ApiExplorerSettings(GroupName = "common-controller")]
     public class CommonRegisterController : ControllerBase
     {
         private readonly IRegisterService _registerService;

@@ -9,6 +9,8 @@ namespace LFF.API.Controllers.Student
 {
     [ApiController]
     [Route("api/v1.0/student/course")]
+    [//Authorize("")]
+  [ApiExplorerSettings(GroupName = "student-controller")]
     public class StudentCourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
