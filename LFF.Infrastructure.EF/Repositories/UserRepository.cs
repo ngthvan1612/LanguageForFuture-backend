@@ -2,6 +2,7 @@ using LFF.Core.DTOs.Base;
 using LFF.Core.Entities;
 using LFF.Core.Repositories;
 using LFF.Infrastructure.EF.DataAccess;
+using LFF.Infrastructure.EF.Utils.PasswordUtils;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,19 @@ namespace LFF.Infrastructure.EF.Repositories
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
         private readonly IDbContextFactory<AppDbContext> dbFactory;
+        private readonly PasswordHasherManaged passwordHasherManaged;
 
-        public UserRepository(IDbContextFactory<AppDbContext> dbFactory)
-          : base(dbFactory)
+        public UserRepository(IDbContextFactory<AppDbContext> dbFactory, PasswordHasherManaged passwordHasherManaged)
+            : base(dbFactory)
         {
             this.dbFactory = dbFactory;
+            this.passwordHasherManaged = passwordHasherManaged;
+        }
+
+        public override Task<User> CreateAsync(User entity)
+        {
+            entity.Password = this.passwordHasherManaged.GetHashedPassword(entity.Password);
+            return base.CreateAsync(entity);
         }
 
         public async Task<User> GetUserByIdAsync(Guid id)
@@ -52,9 +61,28 @@ namespace LFF.Infrastructure.EF.Repositories
             }
         }
 
+        public async Task<User> GetUserByUsernameAndPassword(string username, string password)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var user = await dbs.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+                if (user is null)
+                    return null;
+
+                if (this.passwordHasherManaged.CheckPassword(password, user.Password))
+                {
+                    user.Password = null;
+                    return user;
+                }
+
+                return null;
+            }
+        }
+
         public async Task<bool> CheckUserExistedByIdAsync(Guid id)
         {
-            using (this.dbFactory.CreateDbContext())
+            await using (this.dbFactory.CreateDbContext())
             {
                 return await base.BaseAnyAsync(u => u.Id == id);
             }
