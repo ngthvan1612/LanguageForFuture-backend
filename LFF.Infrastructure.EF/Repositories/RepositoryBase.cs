@@ -20,7 +20,7 @@ namespace LFF.Infrastructure.EF.Repositories
             this.dbFactory = dbFactory;
         }
 
-        public async Task<T> CreateAsync(T entity)
+        public virtual async Task<T> CreateAsync(T entity)
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
@@ -32,7 +32,7 @@ namespace LFF.Infrastructure.EF.Repositories
             }
         }
 
-        public async Task<T> UpdateAsync(T entity)
+        public virtual async Task<T> UpdateAsync(T entity)
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
@@ -52,7 +52,7 @@ namespace LFF.Infrastructure.EF.Repositories
             }
         }
 
-        public async Task<T> GetByIdAsync(Guid id)
+        public virtual async Task<T> GetByIdAsync(Guid id)
         {
             using (this.dbFactory.CreateDbContext())
             {
@@ -79,7 +79,7 @@ namespace LFF.Infrastructure.EF.Repositories
             }
         }
 
-        public async Task<IEnumerable<T>> ListAllAsync()
+        public virtual async Task<IEnumerable<T>> ListAllAsync()
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
@@ -97,7 +97,7 @@ namespace LFF.Infrastructure.EF.Repositories
             }
         }
 
-        public async Task<bool> DeleteAsync(T entity)
+        public virtual async Task<bool> DeleteAsync(T entity)
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
