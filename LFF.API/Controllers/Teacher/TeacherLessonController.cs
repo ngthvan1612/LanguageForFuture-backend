@@ -1,11 +1,11 @@
 using LFF.API.Extensions;
+using LFF.API.Helpers.Authorization;
+using LFF.API.Helpers.Authorization.Users;
 using LFF.Core.DTOs.Lessons.Requests;
 using LFF.Core.Services.LessonServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using LFF.API.Helpers.Authorization;
-using LFF.API.Helpers.Authorization.Users;
 
 namespace LFF.API.Controllers.Teacher
 {
