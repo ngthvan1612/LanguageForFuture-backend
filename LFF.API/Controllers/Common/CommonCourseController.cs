@@ -1,5 +1,4 @@
 using LFF.API.Extensions;
-using LFF.Core.DTOs.Courses.Requests;
 using LFF.Core.Services.CourseServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
