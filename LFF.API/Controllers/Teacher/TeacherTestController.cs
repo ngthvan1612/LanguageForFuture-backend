@@ -4,9 +4,12 @@ using LFF.Core.Services.TestServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using LFF.API.Helpers.Authorization;
+using LFF.API.Helpers.Authorization.Users;
 
 namespace LFF.API.Controllers.Teacher
 {
+    [Authorize(UserRoles.Teacher)]
     [ApiController]
     [Route("api/v1.0/teacher/test")]
     [ApiExplorerSettings(GroupName = "teacher-controller")]

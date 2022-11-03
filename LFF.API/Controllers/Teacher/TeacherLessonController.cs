@@ -4,9 +4,12 @@ using LFF.Core.Services.LessonServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using LFF.API.Helpers.Authorization;
+using LFF.API.Helpers.Authorization.Users;
 
 namespace LFF.API.Controllers.Teacher
 {
+    [Authorize(UserRoles.Teacher)]
     [ApiController]
     [Route("api/v1.0/teacher/lesson")]
     [ApiExplorerSettings(GroupName = "teacher-controller")]
