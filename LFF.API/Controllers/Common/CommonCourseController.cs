@@ -19,13 +19,6 @@ namespace LFF.API.Controllers.Common
             this._courseService = courseService;
         }
 
-        [HttpPost("")]
-        public async Task<IActionResult> CreateCourse(CreateCourseRequest model)
-        {
-            var result = await this._courseService.CreateCourseAsync(model);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
         [HttpGet("")]
         public async Task<IActionResult> ListCourses()
         {
@@ -38,20 +31,6 @@ namespace LFF.API.Controllers.Common
         public async Task<IActionResult> GetCourse(Guid id)
         {
             var result = await this._courseService.GetCourseByIdAsync(id);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateCourse(Guid id, UpdateCourseRequest model)
-        {
-            var result = await this._courseService.UpdateCourseByIdAsync(id, model);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteCourse(Guid id)
-        {
-            var result = await this._courseService.DeleteCourseByIdAsync(id);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
     }
