@@ -27,5 +27,16 @@ namespace LFF.Core.Base
             }
             return response;
         }
+
+        public static BaseDomainException UnAuthentication(params string[] messages)
+        {
+            var response = new BaseDomainException();
+            response.Error.Code = 401;
+            foreach (var message in messages)
+            {
+                response.Error.addMessage(message);
+            }
+            return response;
+        }
     }
 }
