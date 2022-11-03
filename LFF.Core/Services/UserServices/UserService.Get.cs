@@ -1,5 +1,6 @@
 using LFF.Core.Base;
 using LFF.Core.DTOs.Base;
+using LFF.Core.DTOs.Users.Requests;
 using LFF.Core.DTOs.Users.Responses;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,6 @@ namespace LFF.Core.Services.UserServices
 {
     public partial class UserService
     {
-
         public virtual async Task<ResponseBase> GetUserByIdAsync(Guid id)
         {
             var userRepository = this.aggregateRepository.UserRepository;
@@ -56,6 +56,22 @@ namespace LFF.Core.Services.UserServices
                 throw BaseDomainException.NotFound($"Không tìm thấy người dùng nào với Chứng minh nhân dân = {cMND}");
 
             return await Task.FromResult(new GetUserResponse(entity));
+        }
+
+        public async Task<ResponseBase> UserLogin(UserLoginRequest request)
+        {
+            var userRepository = this.aggregateRepository.UserRepository;
+
+            var user = await userRepository.GetUserByUsernameAndPassword(request.Username, request.Password);
+
+            if (user != null)
+            {
+                return new AuthenticatedUserResponse(user);
+            }
+            else
+            {
+                throw BaseDomainException.UnAuthentication("Tên đăng nhập hoặc mật khẩu không đúng");
+            }
         }
 
         public virtual async Task<ResponseBase> ListUserAsync(IEnumerable<SearchQueryItem> queries)
