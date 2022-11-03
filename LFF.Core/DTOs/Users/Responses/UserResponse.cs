@@ -9,8 +9,6 @@ namespace LFF.Core.DTOs.Users.Responses
 
         public string? Username { get; set; }
 
-        public string? Password { get; set; }
-
         public string? FullName { get; set; }
 
         public string? Email { get; set; }
@@ -31,7 +29,6 @@ namespace LFF.Core.DTOs.Users.Responses
         {
             this.Id = user.Id;
             this.Username = user.Username;
-            this.Password = user.Password;
             this.FullName = user.FullName;
             this.Email = user.Email;
             this.DateOfBirth = user.DateOfBirth;
