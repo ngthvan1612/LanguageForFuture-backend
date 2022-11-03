@@ -1,6 +1,7 @@
 using LFF.Core.Repositories;
 using LFF.Infrastructure.EF.DataAccess;
 using LFF.Infrastructure.EF.Repositories;
+using LFF.Infrastructure.EF.Utils.PasswordUtils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,13 +25,15 @@ namespace LFF.Infrastructure.EF.Extensions
             services.AddScoped<IStudentTestResultRepository, StudentTestResultRepository>();
 
             services.AddScoped<IAggregateRepository, AggregateRepository>();
+
+            services.AddSingleton<PasswordHasherManaged>();
             return services;
         }
 
         public static IServiceCollection RegisterEFDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContextFactory<AppDbContext>(options =>
-              options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))); ;
+              options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             return services;
         }
     }
