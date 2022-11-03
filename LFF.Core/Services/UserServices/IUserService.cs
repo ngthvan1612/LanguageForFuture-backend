@@ -15,6 +15,7 @@ namespace LFF.Core.Services.UserServices
         Task<ResponseBase> GetUserByUsernameAsync(string username);
         Task<ResponseBase> GetUserByEmailAsync(string email);
         Task<ResponseBase> GetUserByCMNDAsync(string cMND);
+        Task<ResponseBase> UserLogin(UserLoginRequest request);
         Task<ResponseBase> ListUserAsync(IEnumerable<SearchQueryItem> queries);
         Task<ResponseBase> DeleteUserByIdAsync(Guid id);
     }
