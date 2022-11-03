@@ -1,0 +1,39 @@
+using LFF.Core.Entities;
+using System;
+
+namespace LFF.Core.DTOs.Classrooms.Responses
+{
+    public class ClassroomResponse
+    {
+        public Guid? Id { get; set; }
+
+        public string? Name { get; set; }
+
+        public DateTime? StartDate { get; set; }
+
+        public int? NumberOfLessons { get; set; }
+
+        public Guid? CourseId { get; set; }
+
+        public Guid? TeacherId { get; set; }
+
+        public DateTime? DeletedAt { get; set; }
+
+        public DateTime? CreatedAt { get; set; }
+
+        public DateTime? LastUpdatedAt { get; set; }
+
+        public ClassroomResponse(Classroom classroom)
+        {
+            this.Id = classroom.Id;
+            this.Name = classroom.Name;
+            this.StartDate = classroom.StartDate;
+            this.NumberOfLessons = classroom.NumberOfLessons;
+            this.CourseId = classroom.CourseId;
+            this.TeacherId = classroom.TeacherId;
+            this.DeletedAt = classroom.DeletedAt;
+            this.CreatedAt = classroom.CreatedAt;
+            this.LastUpdatedAt = classroom.LastUpdatedAt;
+        }
+    }
+}
