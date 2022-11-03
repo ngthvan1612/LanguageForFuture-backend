@@ -4,9 +4,12 @@ using LFF.Core.Services.TestServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using LFF.API.Helpers.Authorization;
+using LFF.API.Helpers.Authorization.Users;
 
 namespace LFF.API.Controllers.Admin
 {
+    [Authorize(UserRoles.Admin, UserRoles.Staff)]
     [ApiController]
     [Route("api/v1.0/admin/test")]
     [ApiExplorerSettings(GroupName = "admin-controller")]
