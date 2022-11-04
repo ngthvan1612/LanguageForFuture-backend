@@ -53,6 +53,11 @@ namespace LFF.Core.Services.ClassroomServices
                 throw BaseDomainException.BadRequest($"tên lớp '{model.Name}' đã tồn tại trên hệ thống");
             }
 
+            var user = await userRepository.GetUserByIdAsync(model.TeacherId);
+
+            if (user.Role != UserRoles.Teacher)
+                throw BaseDomainException.BadRequest("Chỉ có giáo viên mới có thể nhận lớp");
+
             //Save
             await classroomRepository.CreateAsync(entity);
 

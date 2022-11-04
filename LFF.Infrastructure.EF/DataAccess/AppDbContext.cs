@@ -52,7 +52,6 @@ namespace LFF.Infrastructure.EF.DataAccess
             modelBuilder.ApplyConfiguration(new QuestionConfiguration());
             modelBuilder.ApplyConfiguration(new StudentTestConfiguration());
             modelBuilder.ApplyConfiguration(new StudentTestResultConfiguration());
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

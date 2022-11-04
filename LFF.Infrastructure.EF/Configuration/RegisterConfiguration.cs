@@ -17,16 +17,15 @@ namespace LFF.Infrastructure.EF.Configuration
 
             modelBuilder
               .HasOne(u => u.Student)
-              .WithMany()
+              .WithMany(u => u.Registers)
               .HasForeignKey(u => u.StudentId)
               .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder
               .HasOne(u => u.Class)
-              .WithMany()
+              .WithMany(u => u.Registers)
               .HasForeignKey(u => u.ClassId)
               .OnDelete(DeleteBehavior.NoAction);
-
         }
     }
 }

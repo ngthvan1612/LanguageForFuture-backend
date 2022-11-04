@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LFF.Infrastructure.EF.Migrations
 {
@@ -60,9 +60,7 @@ namespace LFF.Infrastructure.EF.Migrations
                     TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CourseId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,22 +72,10 @@ namespace LFF.Infrastructure.EF.Migrations
                         principalTable: "Courses",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Classrooms_Courses_CourseId1",
-                        column: x => x.CourseId1,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Classrooms_Users_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Users",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Classrooms_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,8 +90,7 @@ namespace LFF.Infrastructure.EF.Migrations
                     ClassId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClassroomId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,12 +100,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         column: x => x.ClassId,
                         principalTable: "Classrooms",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Lessons_Classrooms_ClassroomId",
-                        column: x => x.ClassroomId,
-                        principalTable: "Classrooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,9 +112,7 @@ namespace LFF.Infrastructure.EF.Migrations
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClassroomId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -146,22 +123,10 @@ namespace LFF.Infrastructure.EF.Migrations
                         principalTable: "Classrooms",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Registers_Classrooms_ClassroomId",
-                        column: x => x.ClassroomId,
-                        principalTable: "Classrooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Registers_Users_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Users",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Registers_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,8 +140,7 @@ namespace LFF.Infrastructure.EF.Migrations
                     LessonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LessonId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -186,12 +150,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         column: x => x.LessonId,
                         principalTable: "Lessons",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Lectures_Lessons_LessonId1",
-                        column: x => x.LessonId1,
-                        principalTable: "Lessons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,8 +166,7 @@ namespace LFF.Infrastructure.EF.Migrations
                     LessonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LessonId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -219,12 +176,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         column: x => x.LessonId,
                         principalTable: "Lessons",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Tests_Lessons_LessonId1",
-                        column: x => x.LessonId1,
-                        principalTable: "Lessons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -237,8 +188,7 @@ namespace LFF.Infrastructure.EF.Migrations
                     TestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TestId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -248,12 +198,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         column: x => x.TestId,
                         principalTable: "Tests",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Questions_Tests_TestId1",
-                        column: x => x.TestId1,
-                        principalTable: "Tests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -266,9 +210,7 @@ namespace LFF.Infrastructure.EF.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TestId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -279,22 +221,10 @@ namespace LFF.Infrastructure.EF.Migrations
                         principalTable: "Tests",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_StudentTests_Tests_TestId1",
-                        column: x => x.TestId1,
-                        principalTable: "Tests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_StudentTests_Users_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Users",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_StudentTests_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,9 +237,7 @@ namespace LFF.Infrastructure.EF.Migrations
                     Result = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    QuestionId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    StudentTestId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -320,22 +248,10 @@ namespace LFF.Infrastructure.EF.Migrations
                         principalTable: "Questions",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_StudentTestResults_Questions_QuestionId1",
-                        column: x => x.QuestionId1,
-                        principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_StudentTestResults_StudentTests_StudentTestId",
                         column: x => x.StudentTestId,
                         principalTable: "StudentTests",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_StudentTestResults_StudentTests_StudentTestId1",
-                        column: x => x.StudentTestId1,
-                        principalTable: "StudentTests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -344,19 +260,9 @@ namespace LFF.Infrastructure.EF.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Classrooms_CourseId1",
-                table: "Classrooms",
-                column: "CourseId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Classrooms_TeacherId",
                 table: "Classrooms",
                 column: "TeacherId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Classrooms_UserId",
-                table: "Classrooms",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lectures_LessonId",
@@ -364,19 +270,9 @@ namespace LFF.Infrastructure.EF.Migrations
                 column: "LessonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lectures_LessonId1",
-                table: "Lectures",
-                column: "LessonId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Lessons_ClassId",
                 table: "Lessons",
                 column: "ClassId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Lessons_ClassroomId",
-                table: "Lessons",
-                column: "ClassroomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_TestId",
@@ -384,19 +280,9 @@ namespace LFF.Infrastructure.EF.Migrations
                 column: "TestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questions_TestId1",
-                table: "Questions",
-                column: "TestId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Registers_ClassId",
                 table: "Registers",
                 column: "ClassId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Registers_ClassroomId",
-                table: "Registers",
-                column: "ClassroomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Registers_StudentId",
@@ -404,29 +290,14 @@ namespace LFF.Infrastructure.EF.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Registers_UserId",
-                table: "Registers",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_StudentTestResults_QuestionId",
                 table: "StudentTestResults",
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentTestResults_QuestionId1",
-                table: "StudentTestResults",
-                column: "QuestionId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_StudentTestResults_StudentTestId",
                 table: "StudentTestResults",
                 column: "StudentTestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentTestResults_StudentTestId1",
-                table: "StudentTestResults",
-                column: "StudentTestId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentTests_StudentId",
@@ -439,24 +310,9 @@ namespace LFF.Infrastructure.EF.Migrations
                 column: "TestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentTests_TestId1",
-                table: "StudentTests",
-                column: "TestId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentTests_UserId",
-                table: "StudentTests",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tests_LessonId",
                 table: "Tests",
                 column: "LessonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tests_LessonId1",
-                table: "Tests",
-                column: "LessonId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

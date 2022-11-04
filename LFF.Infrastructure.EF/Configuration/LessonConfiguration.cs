@@ -20,7 +20,7 @@ namespace LFF.Infrastructure.EF.Configuration
 
             modelBuilder
               .HasOne(u => u.Class)
-              .WithMany()
+              .WithMany(u => u.Lessons)
               .HasForeignKey(u => u.ClassId)
               .OnDelete(DeleteBehavior.NoAction);
 

@@ -66,7 +66,7 @@ namespace LFF.Infrastructure.EF.Repositories
             using (var dbs = this.dbFactory.CreateDbContext())
             {
                 var user = await dbs.Users.FirstOrDefaultAsync(u => u.Username == username);
-
+                
                 if (user is null)
                     return null;
 

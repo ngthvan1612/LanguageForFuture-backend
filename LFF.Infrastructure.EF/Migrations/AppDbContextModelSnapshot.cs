@@ -29,9 +29,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CourseId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime?>("CreatedAt")
                         .IsRequired()
                         .HasColumnType("datetime2");
@@ -60,9 +57,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id")
                         .HasName("PK_Classroom_Id");
 
@@ -71,11 +65,7 @@ namespace LFF.Infrastructure.EF.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("CourseId1");
-
                     b.HasIndex("TeacherId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Classrooms");
                 });
@@ -144,9 +134,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("LessonId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -155,8 +142,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         .HasName("PK_Lecture_Id");
 
                     b.HasIndex("LessonId");
-
-                    b.HasIndex("LessonId1");
 
                     b.ToTable("Lectures");
                 });
@@ -169,9 +154,6 @@ namespace LFF.Infrastructure.EF.Migrations
 
                     b.Property<Guid?>("ClassId")
                         .IsRequired()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ClassroomId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -206,8 +188,6 @@ namespace LFF.Infrastructure.EF.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.HasIndex("ClassroomId");
-
                     b.ToTable("Lessons");
                 });
 
@@ -240,15 +220,10 @@ namespace LFF.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TestId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id")
                         .HasName("PK_Question_Id");
 
                     b.HasIndex("TestId");
-
-                    b.HasIndex("TestId1");
 
                     b.ToTable("Questions");
                 });
@@ -261,9 +236,6 @@ namespace LFF.Infrastructure.EF.Migrations
 
                     b.Property<Guid?>("ClassId")
                         .IsRequired()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ClassroomId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -285,19 +257,12 @@ namespace LFF.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id")
                         .HasName("PK_Register_Id");
 
                     b.HasIndex("ClassId");
 
-                    b.HasIndex("ClassroomId");
-
                     b.HasIndex("StudentId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Registers");
                 });
@@ -331,22 +296,12 @@ namespace LFF.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TestId1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id")
                         .HasName("PK_StudentTest_Id");
 
                     b.HasIndex("StudentId");
 
                     b.HasIndex("TestId");
-
-                    b.HasIndex("TestId1");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("StudentTests");
                 });
@@ -372,9 +327,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("QuestionId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Result")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -383,19 +335,12 @@ namespace LFF.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("StudentTestId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id")
                         .HasName("PK_StudentTestResult_Id");
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("QuestionId1");
-
                     b.HasIndex("StudentTestId");
-
-                    b.HasIndex("StudentTestId1");
 
                     b.ToTable("StudentTestResults");
                 });
@@ -429,9 +374,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("LessonId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -452,8 +394,6 @@ namespace LFF.Infrastructure.EF.Migrations
                         .HasName("PK_Test_Id");
 
                     b.HasIndex("LessonId");
-
-                    b.HasIndex("LessonId1");
 
                     b.ToTable("Tests");
                 });
@@ -524,24 +464,16 @@ namespace LFF.Infrastructure.EF.Migrations
             modelBuilder.Entity("LFF.Core.Entities.Classroom", b =>
                 {
                     b.HasOne("LFF.Core.Entities.Course", "Course")
-                        .WithMany()
+                        .WithMany("Classrooms")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("LFF.Core.Entities.Course", null)
-                        .WithMany("Classrooms")
-                        .HasForeignKey("CourseId1");
-
                     b.HasOne("LFF.Core.Entities.User", "Teacher")
-                        .WithMany()
+                        .WithMany("Classrooms")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("LFF.Core.Entities.User", null)
-                        .WithMany("Classrooms")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Course");
 
@@ -551,14 +483,10 @@ namespace LFF.Infrastructure.EF.Migrations
             modelBuilder.Entity("LFF.Core.Entities.Lecture", b =>
                 {
                     b.HasOne("LFF.Core.Entities.Lesson", "Lesson")
-                        .WithMany()
+                        .WithMany("Lectures")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("LFF.Core.Entities.Lesson", null)
-                        .WithMany("Lectures")
-                        .HasForeignKey("LessonId1");
 
                     b.Navigation("Lesson");
                 });
@@ -566,14 +494,10 @@ namespace LFF.Infrastructure.EF.Migrations
             modelBuilder.Entity("LFF.Core.Entities.Lesson", b =>
                 {
                     b.HasOne("LFF.Core.Entities.Classroom", "Class")
-                        .WithMany()
+                        .WithMany("Lessons")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("LFF.Core.Entities.Classroom", null)
-                        .WithMany("Lessons")
-                        .HasForeignKey("ClassroomId");
 
                     b.Navigation("Class");
                 });
@@ -581,14 +505,10 @@ namespace LFF.Infrastructure.EF.Migrations
             modelBuilder.Entity("LFF.Core.Entities.Question", b =>
                 {
                     b.HasOne("LFF.Core.Entities.Test", "Test")
-                        .WithMany()
+                        .WithMany("Questions")
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("LFF.Core.Entities.Test", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("TestId1");
 
                     b.Navigation("Test");
                 });
@@ -596,24 +516,16 @@ namespace LFF.Infrastructure.EF.Migrations
             modelBuilder.Entity("LFF.Core.Entities.Register", b =>
                 {
                     b.HasOne("LFF.Core.Entities.Classroom", "Class")
-                        .WithMany()
+                        .WithMany("Registers")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("LFF.Core.Entities.Classroom", null)
-                        .WithMany("Registers")
-                        .HasForeignKey("ClassroomId");
-
                     b.HasOne("LFF.Core.Entities.User", "Student")
-                        .WithMany()
+                        .WithMany("Registers")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("LFF.Core.Entities.User", null)
-                        .WithMany("Registers")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Class");
 
@@ -623,24 +535,16 @@ namespace LFF.Infrastructure.EF.Migrations
             modelBuilder.Entity("LFF.Core.Entities.StudentTest", b =>
                 {
                     b.HasOne("LFF.Core.Entities.User", "Student")
-                        .WithMany()
+                        .WithMany("StudentTests")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("LFF.Core.Entities.Test", "Test")
-                        .WithMany()
+                        .WithMany("StudentTests")
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("LFF.Core.Entities.Test", null)
-                        .WithMany("StudentTests")
-                        .HasForeignKey("TestId1");
-
-                    b.HasOne("LFF.Core.Entities.User", null)
-                        .WithMany("StudentTests")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Student");
 
@@ -650,24 +554,16 @@ namespace LFF.Infrastructure.EF.Migrations
             modelBuilder.Entity("LFF.Core.Entities.StudentTestResult", b =>
                 {
                     b.HasOne("LFF.Core.Entities.Question", "Question")
-                        .WithMany()
+                        .WithMany("StudentTestResults")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("LFF.Core.Entities.Question", null)
-                        .WithMany("StudentTestResults")
-                        .HasForeignKey("QuestionId1");
-
                     b.HasOne("LFF.Core.Entities.StudentTest", "StudentTest")
-                        .WithMany()
+                        .WithMany("StudentTestResults")
                         .HasForeignKey("StudentTestId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("LFF.Core.Entities.StudentTest", null)
-                        .WithMany("StudentTestResults")
-                        .HasForeignKey("StudentTestId1");
 
                     b.Navigation("Question");
 
@@ -677,14 +573,10 @@ namespace LFF.Infrastructure.EF.Migrations
             modelBuilder.Entity("LFF.Core.Entities.Test", b =>
                 {
                     b.HasOne("LFF.Core.Entities.Lesson", "Lesson")
-                        .WithMany()
+                        .WithMany("Tests")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("LFF.Core.Entities.Lesson", null)
-                        .WithMany("Tests")
-                        .HasForeignKey("LessonId1");
 
                     b.Navigation("Lesson");
                 });
