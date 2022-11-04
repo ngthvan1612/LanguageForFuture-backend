@@ -8,7 +8,5 @@ namespace LFF.Core.DTOs.Registers.Requests
 
         public Guid ClassId { get; set; }
 
-        public DateTime? RegistrationDate { get; set; }
-
     }
 }
