@@ -8,7 +8,7 @@ namespace LFF.Infrastructure.EF.DataAccess
         public AppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseSqlServer("Server=.;Database=__Test_004_Migrations;Integrated Security=True;");
+            optionsBuilder.UseSqlServer("Server=.;Database=__Test_005_Migrations;Integrated Security=True;");
             return new AppDbContext(optionsBuilder.Options);
         }
     }
