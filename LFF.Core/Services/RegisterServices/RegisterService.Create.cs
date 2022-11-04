@@ -17,13 +17,8 @@ namespace LFF.Core.Services.RegisterServices
             var entity = new Register();
             entity.StudentId = model.StudentId;
             entity.ClassId = model.ClassId;
-            entity.RegistrationDate = model.RegistrationDate;
 
             //Validation
-            if (model.RegistrationDate is null)
-            {
-                throw BaseDomainException.BadRequest("ngày đăng ký không được trống");
-            }
 
             if (!await userRepository.CheckUserExistedByIdAsync(model.StudentId))
             {
@@ -35,6 +30,18 @@ namespace LFF.Core.Services.RegisterServices
                 throw BaseDomainException.BadRequest($"không tồn tại lớp học nào với id = {model.ClassId}");
             }
 
+            var user = await userRepository.GetUserByIdAsync(model.StudentId);
+            if (user.Role != UserRoles.Student)
+            {
+                throw BaseDomainException.BadRequest("Chỉ có học viên mới được đăng ký vào lớp học");
+            }
+
+            if (await registerRepository.CheckRegisterExistedByStudentAndClassId(model.StudentId, model.ClassId))
+            {
+                throw BaseDomainException.BadRequest("Học viên đã đăng ký vào lớp học này rồi");
+            }
+
+            entity.RegistrationDate = System.DateTime.Now;
 
             //Save
             await registerRepository.CreateAsync(entity);
