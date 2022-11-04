@@ -36,6 +36,14 @@ namespace LFF.Infrastructure.EF.Repositories
             }
         }
 
+        public async Task<bool> CheckRegisterExistedByStudentAndClassId(Guid studentId, Guid classId)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                return await dbs.Registers.AnyAsync(u => u.StudentId == studentId && u.ClassId == classId);
+            }
+        }
+
         public override async Task<IEnumerable<Register>> ListByQueriesAsync(IEnumerable<SearchQueryItem> queries)
         {
             using (var dbs = this.dbFactory.CreateDbContext())
