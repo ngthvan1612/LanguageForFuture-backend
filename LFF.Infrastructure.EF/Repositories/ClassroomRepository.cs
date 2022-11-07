@@ -104,7 +104,29 @@ namespace LFF.Infrastructure.EF.Repositories
                     }
                     else throw new ArgumentException($"Unknown query {q.Name}");
                 }
-                return await query.ToListAsync();
+
+                var teachers = from user in dbs.Users
+                               where user.DeletedAt == null && user.Role == UserRoles.Teacher
+                               select user;
+
+                var courses = from course in dbs.Courses
+                              where course.DeletedAt == null
+                              select course;
+
+                var join = from classroom in query
+                             join teacher in teachers on classroom.TeacherId equals teacher.Id
+                             join course in courses on classroom.CourseId equals course.Id
+                             select new { classroom = classroom, teacher = teacher, course = course };
+
+                var result = await join.ToListAsync();
+
+                foreach (var item in result)
+                {
+                    item.classroom.Course = item.course;
+                    item.classroom.Teacher = item.teacher;
+                }
+
+                return result.Select(u => u.classroom);
             }
         }
     }
