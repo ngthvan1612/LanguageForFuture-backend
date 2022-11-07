@@ -10,7 +10,6 @@ namespace LFF.Infrastructure.EF.Configuration
         public void Configure(EntityTypeBuilder<Classroom> modelBuilder)
         {
             modelBuilder.HasKey(u => u.Id).HasName("PK_Classroom_Id");
-            modelBuilder.HasAlternateKey(u => u.Name).HasName("IX_Classroom_Name");
             modelBuilder.Property(u => u.Id).IsRequired();
             modelBuilder.Property(u => u.Name).IsRequired().HasMaxLength(250);
             modelBuilder.Property(u => u.StartDate).IsRequired();

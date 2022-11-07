@@ -10,7 +10,6 @@ namespace LFF.Infrastructure.EF.Configuration
         public void Configure(EntityTypeBuilder<Course> modelBuilder)
         {
             modelBuilder.HasKey(u => u.Id).HasName("PK_Course_Id");
-            modelBuilder.HasAlternateKey(u => u.Name).HasName("IX_Course_Name");
             modelBuilder.Property(u => u.Id).IsRequired();
             modelBuilder.Property(u => u.Name).IsRequired().HasMaxLength(128);
             modelBuilder.Property(u => u.Description).IsRequired();
