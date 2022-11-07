@@ -71,6 +71,11 @@ namespace LFF.Core.Services.UserServices
                 throw BaseDomainException.BadRequest($"Chứng minh nhân dân '{model.CMND}' đã tồn tại trên hệ thống");
             }
 
+            if (!UserRoles.GetAllRoles().Contains(model.Role))
+            {
+                throw BaseDomainException.BadRequest($"Role chỉ có thể là {string.Join(", ", UserRoles.GetAllRoles())}");
+            }
+
             //Save
             await userRepository.CreateAsync(entity);
 
