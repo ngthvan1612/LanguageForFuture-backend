@@ -23,13 +23,8 @@ namespace LFF.Core.Services.RegisterServices
             //Update
             entity.StudentId = model.StudentId;
             entity.ClassId = model.ClassId;
-            entity.RegistrationDate = model.RegistrationDate;
 
             //Validation
-            if (model.RegistrationDate is null)
-            {
-                throw BaseDomainException.BadRequest("ngày đăng ký không được trống");
-            }
 
             if (!await userRepository.CheckUserExistedByIdAsync(model.StudentId))
             {
