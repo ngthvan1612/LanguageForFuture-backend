@@ -8,6 +8,11 @@ namespace LFF.Core.Base
 
         public object? Data { get; set; }
 
+        public SuccessResponseBase()
+        {
+            this.StatusCode = System.Net.HttpStatusCode.OK;
+        }
+
         public static SuccessResponseBase Send(params string[] messages)
         {
             var response = new SuccessResponseBase();
