@@ -21,6 +21,9 @@ namespace LFF.Core.DTOs.StudentTests.Responses
 
         public StudentTestResponse(StudentTest studentTest)
         {
+            if (studentTest == null)
+                return;
+
             this.Id = studentTest.Id;
             this.StudentId = studentTest.StudentId;
             this.TestId = studentTest.TestId;

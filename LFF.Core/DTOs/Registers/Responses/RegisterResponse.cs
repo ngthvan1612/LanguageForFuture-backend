@@ -21,6 +21,9 @@ namespace LFF.Core.DTOs.Registers.Responses
 
         public RegisterResponse(Register register)
         {
+            if (register == null)
+                return;
+
             this.Id = register.Id;
             this.StudentId = register.StudentId;
             this.ClassId = register.ClassId;

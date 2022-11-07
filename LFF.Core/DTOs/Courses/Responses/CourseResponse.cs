@@ -19,6 +19,9 @@ namespace LFF.Core.DTOs.Courses.Responses
 
         public CourseResponse(Course course)
         {
+            if (course == null)
+                return;
+
             this.Id = course.Id;
             this.Name = course.Name;
             this.Description = course.Description;

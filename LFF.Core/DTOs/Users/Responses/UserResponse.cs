@@ -27,6 +27,9 @@ namespace LFF.Core.DTOs.Users.Responses
 
         public UserResponse(User user)
         {
+            if (user == null)
+                return;
+
             this.Id = user.Id;
             this.Username = user.Username;
             this.FullName = user.FullName;

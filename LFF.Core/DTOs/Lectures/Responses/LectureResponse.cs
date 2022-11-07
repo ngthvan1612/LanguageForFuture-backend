@@ -23,6 +23,9 @@ namespace LFF.Core.DTOs.Lectures.Responses
 
         public LectureResponse(Lecture lecture)
         {
+            if (lecture == null)
+                return;
+
             this.Id = lecture.Id;
             this.Name = lecture.Name;
             this.Description = lecture.Description;

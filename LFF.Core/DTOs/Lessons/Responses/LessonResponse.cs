@@ -25,6 +25,9 @@ namespace LFF.Core.DTOs.Lessons.Responses
 
         public LessonResponse(Lesson lesson)
         {
+            if (lesson == null)
+                return;
+
             this.Id = lesson.Id;
             this.Name = lesson.Name;
             this.Description = lesson.Description;

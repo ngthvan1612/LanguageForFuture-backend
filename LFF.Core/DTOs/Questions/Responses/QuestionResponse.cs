@@ -21,6 +21,9 @@ namespace LFF.Core.DTOs.Questions.Responses
 
         public QuestionResponse(Question question)
         {
+            if (question == null)
+                return;
+
             this.Id = question.Id;
             this.Content = question.Content;
             this.QuestionType = question.QuestionType;

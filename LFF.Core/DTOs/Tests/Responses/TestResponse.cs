@@ -29,6 +29,9 @@ namespace LFF.Core.DTOs.Tests.Responses
 
         public TestResponse(Test test)
         {
+            if (test == null)
+                return;
+
             this.Id = test.Id;
             this.Name = test.Name;
             this.Description = test.Description;
