@@ -8,7 +8,5 @@ namespace LFF.Core.DTOs.StudentTests.Requests
 
         public Guid TestId { get; set; }
 
-        public DateTime? StartDate { get; set; }
-
     }
 }
