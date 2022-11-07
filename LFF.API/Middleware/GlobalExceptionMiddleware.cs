@@ -52,6 +52,7 @@ namespace LFF.API.Middleware
                 while (tempRecursive != null)
                 {
                     domainException.Error.addMessage(tempRecursive.Message);
+                    domainException.Error.addMessage(tempRecursive.StackTrace ?? "");
                     tempRecursive = tempRecursive.InnerException;
                 }
                 await context
