@@ -48,7 +48,7 @@ namespace LFF.Infrastructure.EF.Repositories
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
-                var query = dbs.Set<Register>().Select(u => u);
+                var query = dbs.Set<Register>().Select(u => u).Where(u => u.DeletedAt == null);
                 foreach (var q in queries)
                 {
                     var tokens = q.Name.ToLower().Split(".");
