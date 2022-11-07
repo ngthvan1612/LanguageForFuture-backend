@@ -1,6 +1,7 @@
 using LFF.Core.Base;
 using LFF.Core.DTOs.StudentTests.Requests;
 using LFF.Core.DTOs.StudentTests.Responses;
+using LFF.Core.Entities;
 using System;
 using System.Threading.Tasks;
 
@@ -23,13 +24,8 @@ namespace LFF.Core.Services.StudentTestServices
             //Update
             entity.StudentId = model.StudentId;
             entity.TestId = model.TestId;
-            entity.StartDate = model.StartDate;
 
             //Validation
-            if (model.StartDate is null)
-            {
-                throw BaseDomainException.BadRequest("thời điểm bắt đầu làm bài không được trống");
-            }
 
             if (!await userRepository.CheckUserExistedByIdAsync(model.StudentId))
             {
@@ -41,6 +37,10 @@ namespace LFF.Core.Services.StudentTestServices
                 throw BaseDomainException.BadRequest($"không tồn tại bài kiểm tra nào với id = {model.TestId}");
             }
 
+            if ((await userRepository.GetUserByIdAsync(model.StudentId)).Role != UserRoles.Student)
+            {
+                throw BaseDomainException.BadRequest("Chỉ có học viên mới có thể làm bài kiểm tra");
+            }
 
             //Save
             await studentTestRepository.UpdateAsync(entity);
