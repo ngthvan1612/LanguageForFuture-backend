@@ -1,4 +1,5 @@
-﻿using LFF.API.Helpers;
+﻿using IGeekFan.AspNetCore.RapiDoc;
+using LFF.API.Helpers;
 using LFF.API.Helpers.Authorization.Middleware;
 using LFF.API.Middleware;
 using LFF.Core.Extensions;
@@ -6,6 +7,7 @@ using LFF.Infrastructure.EF.Extensions;
 using LFF.Infrastructure.EF.Utils.PasswordUtils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,15 +41,21 @@ namespace LFF.API
 
             services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
             services.Configure<PasswordSettings>(options => Configuration.GetSection("StorePasswordSetting").Bind(options));
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
             }
+
+            app.UseMiddleware<GlobalExceptionMiddleware>();
 
             app.UseCors(builder => builder
                 .AllowAnyHeader()
@@ -64,14 +72,23 @@ namespace LFF.API
 
             app.UseMiddleware<JwtMiddleware>();
 
-            app.UseMiddleware<GlobalExceptionMiddleware>();
-
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/admin-controller/swagger.json", "Admin API");
                 c.SwaggerEndpoint("/swagger/teacher-controller/swagger.json", "Teacher API");
                 c.SwaggerEndpoint("/swagger/student-controller/swagger.json", "Student API");
                 c.SwaggerEndpoint("/swagger/common-controller/swagger.json", "Common API");
+            });
+
+            app.UseRapiDocUI(c =>
+            {
+                c.RoutePrefix = ""; // serve the UI at root
+                c.SwaggerEndpoint("/swagger/admin-controller/swagger.json", "V1 Docs");
+                c.GenericRapiConfig = new GenericRapiConfig()
+                {
+                    RenderStyle = "focused",
+                    Theme = "light",//light,dark,focused   
+                };
             });
 
             app.UseEndpoints(endpoints =>
