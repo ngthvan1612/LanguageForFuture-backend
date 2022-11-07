@@ -103,11 +103,11 @@ namespace LFF.Infrastructure.EF.Repositories
                     else if (tokens[0] == "time")
                     {
                         if (tokens[1] == "min")
-                            query = query.Where(u => u.Time >= DateTime.Parse(q.Values[0]));
+                            query = query.Where(u => u.Time >= int.Parse(q.Values[0]));
                         else if (tokens[1] == "max")
-                            query = query.Where(u => u.Time <= DateTime.Parse(q.Values[0]));
+                            query = query.Where(u => u.Time <= int.Parse(q.Values[0]));
                         else if (tokens[1] == "equal")
-                            query = query.Where(u => u.Time == DateTime.Parse(q.Values[0]));
+                            query = query.Where(u => u.Time == int.Parse(q.Values[0]));
                         else throw new ArgumentException($"Unknown query {q.Name}");
                     }
                     else throw new ArgumentException($"Unknown query {q.Name}");
