@@ -1,3 +1,5 @@
+using LFF.Core.DTOs.Tests.Responses;
+using LFF.Core.DTOs.Users.Responses;
 using LFF.Core.Entities;
 using System;
 
@@ -7,9 +9,8 @@ namespace LFF.Core.DTOs.StudentTests.Responses
     {
         public Guid? Id { get; set; }
 
-        public Guid? StudentId { get; set; }
-
-        public Guid? TestId { get; set; }
+        public UserResponse Student { get; set; }
+        public TestResponse Test { get; set; }
 
         public DateTime? StartDate { get; set; }
 
@@ -25,8 +26,8 @@ namespace LFF.Core.DTOs.StudentTests.Responses
                 return;
 
             this.Id = studentTest.Id;
-            this.StudentId = studentTest.StudentId;
-            this.TestId = studentTest.TestId;
+            this.Student = new UserResponse(studentTest.Student);
+            this.Test = new TestResponse(studentTest.Test);
             this.StartDate = studentTest.StartDate;
             this.DeletedAt = studentTest.DeletedAt;
             this.CreatedAt = studentTest.CreatedAt;

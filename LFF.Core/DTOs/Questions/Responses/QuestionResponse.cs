@@ -1,3 +1,4 @@
+using LFF.Core.DTOs.Tests.Responses;
 using LFF.Core.Entities;
 using System;
 
@@ -11,7 +12,7 @@ namespace LFF.Core.DTOs.Questions.Responses
 
         public string? QuestionType { get; set; }
 
-        public Guid? TestId { get; set; }
+        public TestResponse Test { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 
@@ -27,7 +28,7 @@ namespace LFF.Core.DTOs.Questions.Responses
             this.Id = question.Id;
             this.Content = question.Content;
             this.QuestionType = question.QuestionType;
-            this.TestId = question.TestId;
+            this.Test = new TestResponse(question.Test);
             this.DeletedAt = question.DeletedAt;
             this.CreatedAt = question.CreatedAt;
             this.LastUpdatedAt = question.LastUpdatedAt;
