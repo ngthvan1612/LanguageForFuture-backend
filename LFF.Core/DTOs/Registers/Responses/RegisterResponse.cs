@@ -1,3 +1,5 @@
+using LFF.Core.DTOs.Classrooms.Responses;
+using LFF.Core.DTOs.Users.Responses;
 using LFF.Core.Entities;
 using System;
 
@@ -7,9 +9,8 @@ namespace LFF.Core.DTOs.Registers.Responses
     {
         public Guid? Id { get; set; }
 
-        public Guid? StudentId { get; set; }
-
-        public Guid? ClassId { get; set; }
+        public UserResponse Student { get; set; }
+        public ClassroomResponse Class { get; set; }
 
         public DateTime? RegistrationDate { get; set; }
 
@@ -25,8 +26,8 @@ namespace LFF.Core.DTOs.Registers.Responses
                 return;
 
             this.Id = register.Id;
-            this.StudentId = register.StudentId;
-            this.ClassId = register.ClassId;
+            this.Student = new UserResponse(register.Student);
+            this.Class = new ClassroomResponse(register.Class);
             this.RegistrationDate = register.RegistrationDate;
             this.DeletedAt = register.DeletedAt;
             this.CreatedAt = register.CreatedAt;

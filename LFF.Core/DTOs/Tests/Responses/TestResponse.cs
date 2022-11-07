@@ -1,3 +1,4 @@
+using LFF.Core.DTOs.Lessons.Responses;
 using LFF.Core.Entities;
 using System;
 
@@ -17,9 +18,9 @@ namespace LFF.Core.DTOs.Tests.Responses
 
         public int? NumberOfAttempts { get; set; }
 
-        public DateTime? Time { get; set; }
+        public int? Time { get; set; }
 
-        public Guid? LessonId { get; set; }
+        public LessonResponse Lesson { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 
@@ -39,7 +40,7 @@ namespace LFF.Core.DTOs.Tests.Responses
             this.EndDate = test.EndDate;
             this.NumberOfAttempts = test.NumberOfAttempts;
             this.Time = test.Time;
-            this.LessonId = test.LessonId;
+            this.Lesson = new LessonResponse(test.Lesson);
             this.DeletedAt = test.DeletedAt;
             this.CreatedAt = test.CreatedAt;
             this.LastUpdatedAt = test.LastUpdatedAt;

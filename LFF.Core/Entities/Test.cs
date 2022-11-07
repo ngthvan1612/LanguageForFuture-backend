@@ -12,7 +12,7 @@ namespace LFF.Core.Entities
         private DateTime? _startDate;
         private DateTime? _endDate;
         private int? _numberOfAttempts;
-        private DateTime? _time;
+        private int? _time;
         private Guid? _lessonId;
         private DateTime? _deletedAt;
         private DateTime? _createdAt;
@@ -54,7 +54,7 @@ namespace LFF.Core.Entities
             set { this._numberOfAttempts = value; }
         }
 
-        public DateTime? Time
+        public int? Time
         {
             get { return this._time; }
             set { this._time = value; }

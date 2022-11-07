@@ -1,3 +1,4 @@
+using LFF.Core.DTOs.Classrooms.Responses;
 using LFF.Core.Entities;
 using System;
 
@@ -15,7 +16,7 @@ namespace LFF.Core.DTOs.Lessons.Responses
 
         public DateTime? EndTime { get; set; }
 
-        public Guid? ClassId { get; set; }
+        public ClassroomResponse Class { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 
@@ -33,7 +34,7 @@ namespace LFF.Core.DTOs.Lessons.Responses
             this.Description = lesson.Description;
             this.StartTime = lesson.StartTime;
             this.EndTime = lesson.EndTime;
-            this.ClassId = lesson.ClassId;
+            this.Class = new ClassroomResponse(lesson.Class);
             this.DeletedAt = lesson.DeletedAt;
             this.CreatedAt = lesson.CreatedAt;
             this.LastUpdatedAt = lesson.LastUpdatedAt;

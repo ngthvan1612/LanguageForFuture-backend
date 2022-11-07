@@ -1,3 +1,5 @@
+using LFF.Core.DTOs.Questions.Responses;
+using LFF.Core.DTOs.StudentTests.Responses;
 using LFF.Core.Entities;
 using System;
 
@@ -7,9 +9,9 @@ namespace LFF.Core.DTOs.StudentTestResults.Responses
     {
         public Guid? Id { get; set; }
 
-        public Guid? StudentTestId { get; set; }
+        public StudentTestResponse StudentTest { get; set; }
 
-        public Guid? QuestionId { get; set; }
+        public QuestionResponse Question { get; set; }
 
         public string? Result { get; set; }
 
@@ -25,8 +27,8 @@ namespace LFF.Core.DTOs.StudentTestResults.Responses
                 return;
 
             this.Id = studentTestResult.Id;
-            this.StudentTestId = studentTestResult.StudentTestId;
-            this.QuestionId = studentTestResult.QuestionId;
+            this.StudentTest = new StudentTestResponse(studentTestResult.StudentTest);
+            this.Question = new QuestionResponse(studentTestResult.Question);
             this.Result = studentTestResult.Result;
             this.DeletedAt = studentTestResult.DeletedAt;
             this.CreatedAt = studentTestResult.CreatedAt;
