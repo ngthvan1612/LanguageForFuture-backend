@@ -84,7 +84,23 @@ namespace LFF.Infrastructure.EF.Repositories
                     }
                     else throw new ArgumentException($"Unknown query {q.Name}");
                 }
-                return await query.ToListAsync();
+
+                var lessons = from lesson in dbs.Lessons
+                              where lesson.DeletedAt == null
+                              select lesson;
+
+                var linq = from lecture in query
+                             join lesson in lessons on lecture.LessonId equals lesson.Id
+                             select new { lecture = lecture, lesson = lesson };
+
+                var result = (await linq.ToListAsync())
+                    .Select(u =>
+                    {
+                        u.lecture.Lesson = u.lesson;
+                        return u.lecture;
+                    });
+
+                return result;
             }
         }
     }

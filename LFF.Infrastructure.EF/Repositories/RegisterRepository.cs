@@ -49,6 +49,7 @@ namespace LFF.Infrastructure.EF.Repositories
             using (var dbs = this.dbFactory.CreateDbContext())
             {
                 var query = dbs.Set<Register>().Select(u => u).Where(u => u.DeletedAt == null);
+
                 foreach (var q in queries)
                 {
                     var tokens = q.Name.ToLower().Split(".");
@@ -66,7 +67,34 @@ namespace LFF.Infrastructure.EF.Repositories
                     }
                     else throw new ArgumentException($"Unknown query {q.Name}");
                 }
-                return await query.ToListAsync();
+
+                var students = from user in dbs.Users
+                               where user.DeletedAt == null && user.Role == UserRoles.Student
+                               select user;
+
+                var classrooms = from classroom in dbs.Classrooms
+                                 where classroom.DeletedAt == null
+                                 select classroom;
+
+                var linq = from register in query
+                           join student in students on register.StudentId equals student.Id
+                           join classroom in classrooms on register.ClassId equals classroom.Id
+                           select new
+                           {
+                               register = register,
+                               student = student,
+                               classroom = classroom
+                           };
+
+                var result = (await linq.ToListAsync())
+                    .Select(u =>
+                    {
+                        u.register.Student = u.student;
+                        u.register.Class = u.classroom;
+                        return u.register;
+                    });
+
+                return result;
             }
         }
     }
