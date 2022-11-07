@@ -14,7 +14,7 @@ namespace LFF.Core.DTOs.Tests.Requests
 
         public int? NumberOfAttempts { get; set; }
 
-        public DateTime? Time { get; set; }
+        public int? Time { get; set; }
 
         public Guid LessonId { get; set; }
 
