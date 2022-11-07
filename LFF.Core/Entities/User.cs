@@ -10,6 +10,9 @@ namespace LFF.Core.Entities
         public const string Staff = "STAFF";
         public const string Teacher = "TEACHER";
         public const string Student = "STUDENT";
+
+        public static List<string> GetAllRoles()
+            => new List<string>(new string[] { Admin, Staff, Teacher, Student });
     }
 
     public partial class User : IEntity<Guid?>, IModificationEntity, IDeletionEntity, ICreationEntity
