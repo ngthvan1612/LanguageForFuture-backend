@@ -43,7 +43,7 @@ namespace LFF.Infrastructure.EF.Repositories
             }
         }
 
-        protected async Task<T> BaseGetAsync(Expression<Func<T, bool>> expression)
+        protected virtual async Task<T> BaseGetAsync(Expression<Func<T, bool>> expression)
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
@@ -61,7 +61,7 @@ namespace LFF.Infrastructure.EF.Repositories
             }
         }
 
-        protected async Task<bool> BaseAnyAsync(Expression<Func<T, bool>> expression)
+        protected virtual async Task<bool> BaseAnyAsync(Expression<Func<T, bool>> expression)
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
