@@ -20,7 +20,6 @@ namespace LFF.Core.Services.UserServices
 
             //Update
             entity.Username = model.Username;
-            entity.Password = model.Password;
             entity.FullName = model.FullName;
             entity.Email = model.Email;
             entity.DateOfBirth = model.DateOfBirth;
@@ -31,11 +30,6 @@ namespace LFF.Core.Services.UserServices
             if (string.IsNullOrEmpty(model.Username))
             {
                 throw BaseDomainException.BadRequest("tên người dùng không được trống");
-            }
-
-            if (string.IsNullOrEmpty(model.Password))
-            {
-                throw BaseDomainException.BadRequest("mật khẩu không được trống");
             }
 
             if (string.IsNullOrEmpty(model.FullName))
