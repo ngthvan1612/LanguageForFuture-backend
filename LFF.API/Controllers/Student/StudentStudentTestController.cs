@@ -1,6 +1,7 @@
 using LFF.API.Extensions;
 using LFF.API.Helpers.Authorization;
 using LFF.API.Helpers.Authorization.Users;
+using LFF.Core.DTOs.StudentTests.Requests;
 using LFF.Core.Services.StudentTestServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,6 +20,13 @@ namespace LFF.API.Controllers.Student
         public StudentStudentTestController(IStudentTestService studentTestService)
         {
             this._studentTestService = studentTestService;
+        }
+
+        [HttpPost("")]
+        public async Task<IActionResult> CreateStudentTest(CreateStudentTestRequest model)
+        {
+            var result = await this._studentTestService.CreateStudentTestAsync(model);
+            return this.StatusCode((int)result.GetStatusCode(), result);
         }
 
         [HttpGet("")]
