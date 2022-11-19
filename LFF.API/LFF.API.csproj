@@ -3,10 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
+    <UserSecretsId>437b6f0a-ad62-4992-a6dd-9f3c325517c9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

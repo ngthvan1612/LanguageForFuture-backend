@@ -5,6 +5,7 @@ using LFF.Infrastructure.EF.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,9 +23,13 @@ namespace LFF.Infrastructure.EF.Repositories
 
         public async Task<Classroom> GetClassroomByIdAsync(Guid id)
         {
-            using (this.dbFactory.CreateDbContext())
+            using (var dbs = this.dbFactory.CreateDbContext())
             {
-                return await base.BaseGetAsync(u => u.Id == id);
+                return await dbs.Classrooms.Where(u => u.Id == id)
+                    .Include(u => u.Teacher)
+                    .Include(u => u.Course)
+                    .Include(u => u.Lessons)
+                    .FirstOrDefaultAsync();
             }
         }
 

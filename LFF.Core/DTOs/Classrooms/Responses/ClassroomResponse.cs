@@ -2,6 +2,8 @@ using LFF.Core.DTOs.Courses.Responses;
 using LFF.Core.DTOs.Users.Responses;
 using LFF.Core.Entities;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace LFF.Core.DTOs.Classrooms.Responses
 {
@@ -16,7 +18,10 @@ namespace LFF.Core.DTOs.Classrooms.Responses
         public int? NumberOfLessons { get; set; }
 
         public CourseResponse Course { get; set; }
+
         public UserResponse Teacher { get; set; }
+
+        public ICollection<Lesson> Lessons { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 
@@ -38,6 +43,7 @@ namespace LFF.Core.DTOs.Classrooms.Responses
             this.DeletedAt = classroom.DeletedAt;
             this.CreatedAt = classroom.CreatedAt;
             this.LastUpdatedAt = classroom.LastUpdatedAt;
+            this.Lessons = classroom.Lessons;
         }
     }
 }
