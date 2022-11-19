@@ -107,6 +107,18 @@ namespace LFF.Infrastructure.EF.Repositories
                             query = query.Where(u => double.Parse(q.Values[0]) == u.NumberOfLessons);
                         else throw new ArgumentException($"Unknown query {q.Name}");
                     }
+                    else if (tokens[0] == "student_id")
+                    {
+                        if (tokens[1] == "equal")
+                        {
+                            Guid guid = Guid.Parse(Convert.ToString(q.Values[0]));
+                            query = from classroom in query
+                                    join register in dbs.Registers on classroom.Id equals register.ClassId
+                                    join student in dbs.Users on register.StudentId equals student.Id
+                                    where student.Id == guid
+                                    select classroom;
+                        }
+                    }
                     else throw new ArgumentException($"Unknown query {q.Name}");
                 }
 
