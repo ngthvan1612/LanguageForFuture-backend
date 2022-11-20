@@ -16,7 +16,7 @@ namespace LFF.Infrastructure.EF.DataAccess
 
         public DbSet<Lesson>? Lessons { get; set; }
 
-        public DbSet<Lecture>? Lectures { get; set; }
+        //public DbSet<Lecture>? Lectures { get; set; }
 
         public DbSet<Register>? Registers { get; set; }
 

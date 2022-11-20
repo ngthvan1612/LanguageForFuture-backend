@@ -9,6 +9,7 @@ namespace LFF.Core.Entities
         private Guid? _id;
         private string? _name;
         private string? _description;
+        private string? _lessonContent;
         private DateTime? _startTime;
         private DateTime? _endTime;
         private Guid? _classId;
@@ -32,6 +33,12 @@ namespace LFF.Core.Entities
         {
             get { return this._description; }
             set { this._description = value; }
+        }
+
+        public string? LessonContent
+        {
+            get { return this._lessonContent; }
+            set { this._lessonContent = value; }
         }
 
         public DateTime? StartTime
