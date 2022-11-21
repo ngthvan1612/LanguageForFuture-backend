@@ -110,6 +110,15 @@ namespace LFF.Infrastructure.EF.Repositories
                             query = query.Where(u => u.Time == int.Parse(q.Values[0]));
                         else throw new ArgumentException($"Unknown query {q.Name}");
                     }
+                    else if (tokens[0] == "lesson_id")
+                    {
+                        if (tokens[1] == "equal")
+                        {
+                            Guid guid = Guid.Parse(Convert.ToString(q.Values[0]));
+                            query = query.Where(u => u.LessonId == guid);
+                        }
+                        else throw new ArgumentException($"Unknown query {q.Name}");
+                    }
                     else throw new ArgumentException($"Unknown query {q.Name}");
                 }
 
