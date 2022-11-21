@@ -47,6 +47,8 @@ namespace LFF.Core.Services.LessonServices
                 throw BaseDomainException.BadRequest($"không tồn tại lớp học nào với id = {model.ClassId}");
             }
 
+            //Mặc định nội dung bài học là chuỗi ""
+            entity.LessonContent = "";
 
             //Save
             await lessonRepository.CreateAsync(entity);
