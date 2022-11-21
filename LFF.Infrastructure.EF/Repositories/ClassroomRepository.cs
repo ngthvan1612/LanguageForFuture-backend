@@ -119,6 +119,17 @@ namespace LFF.Infrastructure.EF.Repositories
                                     select classroom;
                         }
                     }
+                    else if (tokens[0] == "teacher_id")
+                    {
+                        if (tokens[1] == "equal")
+                        {
+                            Guid guid = Guid.Parse(Convert.ToString(q.Values[0]));
+                            query = from classroom in query
+                                    join teacher in dbs.Users on classroom.TeacherId equals teacher.Id
+                                    where teacher.Id == guid
+                                    select classroom;
+                        }
+                    }
                     else throw new ArgumentException($"Unknown query {q.Name}");
                 }
 
