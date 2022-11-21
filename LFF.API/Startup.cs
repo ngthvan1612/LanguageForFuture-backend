@@ -64,9 +64,9 @@ namespace LFF.API
                 app.UseSwagger();
             }
 
-            app.UseMiddleware<GlobalExceptionMiddleware>();
+            //app.UseMiddleware<GlobalExceptionMiddleware>();
 
-            app.UseCors(builder => builder
+            app.UseCors(builder => builder 
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .SetIsOriginAllowed((host) => true)

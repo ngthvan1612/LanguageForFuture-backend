@@ -1,8 +1,9 @@
 using LFF.Core.Base;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Text.Json;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
 
 namespace LFF.API.Middleware
 {
@@ -31,17 +32,14 @@ namespace LFF.API.Middleware
         {
             context.Response.ContentType = "application/json"; ;
 
-            var serializeOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-
             if (exception is BaseDomainException)
             {
                 var e = exception as BaseDomainException;
                 context.Response.StatusCode = e.Error.Code;
-                var result = JsonSerializer.Serialize(e.Error, serializeOptions);
+                var result = JsonConvert.SerializeObject(e.Error, Formatting.Indented, new JsonSerializerSettings()
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
                 await context.Response.WriteAsync(result);
             }
             else
@@ -57,7 +55,10 @@ namespace LFF.API.Middleware
                 }
                 await context
                     .Response
-                    .WriteAsync(JsonSerializer.Serialize(domainException.Error, serializeOptions));
+                    .WriteAsync(JsonConvert.SerializeObject(domainException.Error, Formatting.Indented, new JsonSerializerSettings()
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    }));
             }
         }
     }

@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Linq;
-using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace LFF.API.Helpers.Authorization
 {
@@ -26,12 +27,10 @@ namespace LFF.API.Helpers.Authorization
                 context.HttpContext.Response.StatusCode = 401;
                 var result = new ErrorResponseModelBase();
                 result.addMessage("Chưa đăng nhập");
-                var serializeOptions = new JsonSerializerOptions
+                context.Result = new ContentResult() { Content = JsonConvert.SerializeObject(result, Formatting.Indented, new JsonSerializerSettings()
                 {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    WriteIndented = true
-                };
-                context.Result = new JsonResult(result, serializeOptions);
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                }), ContentType = "application/json" };
             }
             else
             {
@@ -39,13 +38,15 @@ namespace LFF.API.Helpers.Authorization
                 {
                     context.HttpContext.Response.StatusCode = 403;
                     var result = new ErrorResponseModelBase();
-                    var serializeOptions = new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                        WriteIndented = true
-                    };
                     result.addMessage("Bạn không có quyền truy cập vào trang này");
-                    context.Result = new JsonResult(result, serializeOptions);
+                    context.Result = new ContentResult()
+                    {
+                        Content = JsonConvert.SerializeObject(result, Formatting.Indented, new JsonSerializerSettings()
+                        {
+                            ContractResolver = new CamelCasePropertyNamesContractResolver()
+                        }),
+                        ContentType = "application/json"
+                    };
                 }
             }
         }
