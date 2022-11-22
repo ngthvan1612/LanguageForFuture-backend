@@ -46,6 +46,36 @@ namespace LFF.API
                 config.SwaggerDoc("common-controller", new OpenApiInfo() { Title = "API Common", Version = "v1.0" });
                 config.SwaggerDoc("teacher-controller", new OpenApiInfo() { Title = "API Teacher", Version = "v1.0" });
                 config.SwaggerDoc("student-controller", new OpenApiInfo() { Title = "API Student", Version = "v1.0" });
+
+                // Bearer token authentication
+                OpenApiSecurityScheme securityDefinition = new OpenApiSecurityScheme()
+                {
+                    Name = "Bearer",
+                    BearerFormat = "JWT",
+                    Scheme = "bearer",
+                    Description = "Specify the authorization token.",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                };
+                config.AddSecurityDefinition("jwt_auth", securityDefinition);
+
+                // Make sure swagger UI requires a Bearer token specified
+                OpenApiSecurityScheme securityScheme = new OpenApiSecurityScheme()
+                {
+                    Reference = new OpenApiReference()
+                    {
+                        Id = "jwt_auth",
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                OpenApiSecurityRequirement securityRequirements = new OpenApiSecurityRequirement()
+                {
+                    {
+                        securityScheme,
+                        new string[] { }
+                    },
+                };
+                config.AddSecurityRequirement(securityRequirements);
             });
 
             services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
@@ -92,7 +122,10 @@ namespace LFF.API
             app.UseRapiDocUI(c =>
             {
                 c.RoutePrefix = ""; // serve the UI at root
-                c.SwaggerEndpoint("/swagger/admin-controller/swagger.json", "V1 Docs");
+                c.SwaggerEndpoint("/swagger/admin-controller/swagger.json", "Admin controller");
+                c.SwaggerEndpoint("/swagger/teacher-controller/swagger.json", "Teacher controller");
+                c.SwaggerEndpoint("/swagger/student-controller/swagger.json", "Student controller");
+                c.SwaggerEndpoint("/swagger/common-controller/swagger.json", "Common controller");
                 c.GenericRapiConfig = new GenericRapiConfig()
                 {
                     RenderStyle = "focused",
