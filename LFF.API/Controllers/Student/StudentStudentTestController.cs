@@ -5,6 +5,7 @@ using LFF.Core.DTOs.StudentTests.Requests;
 using LFF.Core.Services.StudentTestServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LFF.API.Controllers.Student
@@ -43,6 +44,17 @@ namespace LFF.API.Controllers.Student
         public async Task<IActionResult> GetStudentTest(Guid id)
         {
             var result = await this._studentTestService.GetStudentTestByIdAsync(id);
+            return this.StatusCode((int)result.GetStatusCode(), result);
+        }
+
+        [HttpGet("history")]
+        public async Task<IActionResult> GetStudentTestHistoryAsync()
+        {
+            var pars = this.TransferHttpQueriesToDomainSearchQueries();
+            var studentId = Guid.Parse(pars.FirstOrDefault(u => u.Name == "studentId").Values[0]);
+            var testId = Guid.Parse(pars.FirstOrDefault(u => u.Name == "testId").Values[0]);
+
+            var result = await this._studentTestService.GetStudentTestHistory(studentId, testId);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
     }
