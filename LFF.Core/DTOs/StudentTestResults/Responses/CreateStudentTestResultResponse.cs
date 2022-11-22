@@ -4,18 +4,18 @@ using System.Net;
 
 namespace LFF.Core.DTOs.StudentTestResults.Responses
 {
-    public class CreateStudentTestResultResponse : SuccessResponseBase
+    public class CreateOrUpdateStudentTestResultResponse : SuccessResponseBase
     {
 
-        public CreateStudentTestResultResponse()
+        public CreateOrUpdateStudentTestResultResponse()
           : base()
         {
-            this.Messages.Add("Tạo kết quả kiểm tra thành công");
+            this.Messages.Add("Cập nhật kết quả kiểm tra thành công");
             this.Status = "OK";
             this.StatusCode = HttpStatusCode.Created;
         }
 
-        public CreateStudentTestResultResponse(StudentTestResult studentTestResult)
+        public CreateOrUpdateStudentTestResultResponse(StudentTestResult studentTestResult)
           : this()
         {
             this.Data = new StudentTestResultResponse(studentTestResult);
