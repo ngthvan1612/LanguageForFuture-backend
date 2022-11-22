@@ -85,5 +85,41 @@ namespace LFF.Infrastructure.EF.Repositories
                 return res;
             }
         }
+
+        //Chặn phương thức Create mặc định
+        public override Task<StudentTestResult> CreateAsync(StudentTestResult entity)
+        {
+            throw new NotSupportedException();
+        }
+
+        //Chặn phương thức Update mặc định
+        public override Task<StudentTestResult> UpdateAsync(StudentTestResult entity)
+        {
+            throw new NotSupportedException();
+        }
+
+        public async Task<StudentTestResult> CreateOrUpdateResult(StudentTestResult studentTestResult)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var temp = await dbs.StudentTestResults
+                    .FirstOrDefaultAsync(u =>
+                        u.StudentTestId == studentTestResult.StudentTestId &&
+                        u.QuestionId == studentTestResult.QuestionId);
+                if (temp != null)
+                {
+                    temp.Result = studentTestResult.Result;
+                    await dbs.SaveChangesAsync();
+                    return temp;
+                }
+                else
+                {
+                    studentTestResult.CreatedAt = studentTestResult.LastUpdatedAt = DateTime.Now;
+                    dbs.StudentTestResults?.Add(studentTestResult);
+                    await dbs.SaveChangesAsync();
+                    return studentTestResult;
+                }
+            }
+        }
     }
 }
