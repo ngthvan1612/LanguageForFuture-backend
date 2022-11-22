@@ -21,10 +21,9 @@ namespace LFF.Core.Services.StudentTestServices
             entity.TestId = model.TestId;
             entity.StartDate = DateTime.Now;
 
-            //Nhớ kiểm tra xem học viên đang có bài kiểm nào hay chưa?
+            //Validation: sắp xếp theo độ ưu tiên người dùng
 
-            //Validation
-
+            //Validate dữ liệu
             if (!await userRepository.CheckUserExistedByIdAsync(model.StudentId))
             {
                 throw BaseDomainException.BadRequest($"không tồn tại người dùng nào với id = {model.StudentId}");
@@ -38,6 +37,25 @@ namespace LFF.Core.Services.StudentTestServices
             if ((await userRepository.GetUserByIdAsync(model.StudentId)).Role != UserRoles.Student)
             {
                 throw BaseDomainException.BadRequest("Chỉ có học viên mới có thể làm bài kiểm tra");
+            }
+
+            //Validate có đang kiểm tra gì không?
+            if (await studentTestRepository.IsDoingAnyTest(model.StudentId))
+                throw BaseDomainException.BadRequest("Bạn đang có một bài kiểm tra chưa hoàn tất");
+
+            //Validate thời gian làm bài
+            var currentDateTime = DateTime.Now;
+            var currentTest = await testRepository.GetByIdAsync(model.TestId);
+
+            if (currentDateTime < currentTest.StartDate || currentTest.EndDate < currentDateTime)
+                throw BaseDomainException.BadRequest("Hiện tại không trong thời gian được phép làm bài kiểm tra");
+
+            //Validate số lần làm bài
+            if (currentTest.NumberOfAttempts >= 0)
+            {
+                int numberOfTimes = await studentTestRepository.NumberOfTimesAttemptTest(model.StudentId, model.TestId);
+                if (numberOfTimes + 1 > currentTest.NumberOfAttempts)
+                    throw BaseDomainException.BadRequest($"Bài kiểm tra này chỉ có thể làm tối đa {currentTest.NumberOfAttempts} lần");
             }
 
             //Save

@@ -1,4 +1,4 @@
-using LFF.Core.Base;
+﻿using LFF.Core.Base;
 using System;
 using System.Collections.Generic;
 
@@ -48,6 +48,9 @@ namespace LFF.Core.Entities
             set { this._endDate = value; }
         }
 
+        /// <summary>
+        /// Số lần được phép làm bài kiểm tra, nếu bằng -1 thì coi như vô hạn
+        /// </summary>
         public int? NumberOfAttempts
         {
             get { return this._numberOfAttempts; }
