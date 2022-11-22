@@ -20,6 +20,12 @@ namespace LFF.Infrastructure.EF.Repositories
             this.dbFactory = dbFactory;
         }
 
+        public override Task<StudentTest> CreateAsync(StudentTest entity)
+        {
+            entity.SubmittedOn = null;
+            return base.CreateAsync(entity);
+        }
+
         public async Task<StudentTest> GetStudentTestByIdAsync(Guid id)
         {
             using (this.dbFactory.CreateDbContext())
