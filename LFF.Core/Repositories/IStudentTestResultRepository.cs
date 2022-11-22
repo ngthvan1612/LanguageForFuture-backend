@@ -8,5 +8,6 @@ namespace LFF.Core.Repositories
     {
         Task<StudentTestResult> GetStudentTestResultByIdAsync(Guid id);
         Task<bool> CheckStudentTestResultExistedByIdAsync(Guid id);
+        Task<StudentTestResult> CreateOrUpdateResult(StudentTestResult studentTestResult);
     }
 }
