@@ -25,7 +25,7 @@ namespace LFF.API.Controllers.Student
         [HttpPost("")]
         public async Task<IActionResult> CreateStudentTestResult(CreateStudentTestResultRequest model)
         {
-            var result = await this._studentTestResultService.CreateStudentTestResultAsync(model);
+            var result = await this._studentTestResultService.CreateOrUpdateStudentTestResultAsync(model);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
 
@@ -41,13 +41,6 @@ namespace LFF.API.Controllers.Student
         public async Task<IActionResult> GetStudentTestResult(Guid id)
         {
             var result = await this._studentTestResultService.GetStudentTestResultByIdAsync(id);
-            return this.StatusCode((int)result.GetStatusCode(), result);
-        }
-
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateStudentTestResult(Guid id, UpdateStudentTestResultRequest model)
-        {
-            var result = await this._studentTestResultService.UpdateStudentTestResultByIdAsync(id, model);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
     }
