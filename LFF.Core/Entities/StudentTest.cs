@@ -13,6 +13,7 @@ namespace LFF.Core.Entities
         private DateTime? _deletedAt;
         private DateTime? _createdAt;
         private DateTime? _lastUpdatedAt;
+        private DateTime? _submittedOn;
 
         public Guid? Id
         {
@@ -54,6 +55,12 @@ namespace LFF.Core.Entities
         {
             get { return this._lastUpdatedAt; }
             set { this._lastUpdatedAt = value; }
+        }
+
+        public DateTime? SubmittedOn
+        {
+            get { return this._submittedOn; }
+            set { this._submittedOn = value; }
         }
 
         public User Student { get; set; }
