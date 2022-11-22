@@ -1,4 +1,4 @@
-using LFF.API.Extensions;
+﻿using LFF.API.Extensions;
 using LFF.API.Helpers.Authorization;
 using LFF.API.Helpers.Authorization.Users;
 using LFF.Core.DTOs.StudentTests.Requests;
@@ -25,6 +25,8 @@ namespace LFF.API.Controllers.Student
         [HttpPost("")]
         public async Task<IActionResult> CreateStudentTest(CreateStudentTestRequest model)
         {
+            // TODO: nhớ kiểm tra model.StudentId có phải người đăng nhập hiện tại hay không
+
             var result = await this._studentTestService.CreateStudentTestAsync(model);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
