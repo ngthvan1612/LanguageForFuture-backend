@@ -9,8 +9,7 @@ namespace LFF.Core.Services.StudentTestResultServices
 {
     public interface IStudentTestResultService
     {
-        Task<ResponseBase> CreateStudentTestResultAsync(CreateStudentTestResultRequest request);
-        Task<ResponseBase> UpdateStudentTestResultByIdAsync(Guid id, UpdateStudentTestResultRequest request);
+        Task<ResponseBase> CreateOrUpdateStudentTestResultAsync(CreateStudentTestResultRequest request);
         Task<ResponseBase> GetStudentTestResultByIdAsync(Guid id);
         Task<ResponseBase> ListStudentTestResultAsync(IEnumerable<SearchQueryItem> queries);
         Task<ResponseBase> DeleteStudentTestResultByIdAsync(Guid id);
