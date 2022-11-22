@@ -121,5 +121,28 @@ namespace LFF.Core.Utils.Questions
             if (!this.Choices.Any(u => u.Code == this.Answer))
                 throw BaseDomainException.BadRequest($"Không tìm thấy đáp án với mã {this.Answer} trong danh sách lựa chọn");
         }
+
+        public override bool CheckAnswer(object? answer)
+        {
+            if (!(answer is string))
+                return false;
+            return this.Answer == answer.ToString();
+        }
+
+        public override int CalculateScore(object? answer)
+        {
+            if (!(answer is string))
+                return 0;
+            if (this.Answer == answer.ToString())
+                return 1;
+            return 0;
+        }
+
+        public override bool CheckAnswerIsValid(object? answer)
+        {
+            if (!(answer is string))
+                return false;
+            return this.Choices.Any(u => u.Code == answer.ToString());
+        }
     }
 }

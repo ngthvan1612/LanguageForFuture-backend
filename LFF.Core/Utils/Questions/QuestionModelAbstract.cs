@@ -42,7 +42,7 @@ namespace LFF.Core.Utils.Questions
 
         public virtual string ToJsonString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this, Formatting.None, QuestionModelTypeDefintion.NewtonsoftSerlizerSettings);
         }
 
         public void RunValidation()
@@ -69,6 +69,12 @@ namespace LFF.Core.Utils.Questions
             if (!new string[] { QuestionModelTypeDefintion.QUESTION_TYPE_MULTIPLE_CHOICE }.Contains(this.Meta.Type))
                 throw BaseDomainException.BadRequest($"Không rõ mã định danh câu hỏi <'{this.Meta.Type}'>");
         }
+
+        public abstract bool CheckAnswerIsValid(object? answer);
+
+        public abstract bool CheckAnswer(object? answer);
+
+        public abstract int CalculateScore(object? answer);
 
         public abstract object Clone();
     }
