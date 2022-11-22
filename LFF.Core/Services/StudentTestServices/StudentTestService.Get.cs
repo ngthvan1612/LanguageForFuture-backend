@@ -29,5 +29,11 @@ namespace LFF.Core.Services.StudentTestServices
             var raws = await studentTestRepository.ListByQueriesAsync(queries);
             return await Task.FromResult(new ListStudentTestResponse(raws));
         }
+
+        public async Task<ResponseBase> GetStudentTestHistory(Guid studentId, Guid testId)
+        {
+            var result = await this.aggregateRepository.TestRepository.GetStudentTestHistory(studentId, testId);
+            return new StudentTestHistoryResponse(result);
+        }
     }
 }
