@@ -1,8 +1,11 @@
 using LFF.Core.DTOs.Base;
 using LFF.Core.Entities;
+using LFF.Core.Entities.Supports;
 using LFF.Core.Repositories;
+using LFF.Core.Utils.Questions;
 using LFF.Infrastructure.EF.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -142,6 +145,104 @@ namespace LFF.Infrastructure.EF.Repositories
                     });
 
                 return result;
+            }
+        }
+
+        public async Task<StudentTestHistory> GetStudentTestHistory(Guid studentId, Guid testId)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                //SQL PROCESSING
+                var testEntity = dbs.Tests.FirstOrDefault(u => u.Id == testId);
+                var studentEntity = dbs.Users.FirstOrDefault(u => u.Id == studentId && u.DeletedAt == null);
+
+                var fixedStudentTests = dbs.StudentTests.Where(u => u.DeletedAt == null)
+                    .Where(u => u.TestId == testId && u.StudentId == studentId);
+
+                var fixedResults = from result in dbs.StudentTestResults
+                                              join studentTest in fixedStudentTests on result.StudentTestId equals studentTest.Id
+                                              select result;
+
+                var fixedQuestions = dbs.Questions.Where(u => u.DeletedAt == null)
+                    .Where(u => u.TestId == testId);
+
+                var questionAndAnswers = await (
+                    from question in fixedQuestions
+                    join test in dbs.Tests.Where(u => u.Id == testId) on question.TestId equals test.Id
+                    join studentTest in fixedStudentTests on test.Id equals studentTest.TestId
+                    join _result in fixedResults on new
+                    {
+                        questionId = question.Id,
+                        studentTestId = studentTest.Id
+                    } equals new
+                    {
+                        questionId = _result.QuestionId,
+                        studentTestId = _result.StudentTestId
+                    } into g
+                    from result in g.DefaultIfEmpty()
+                    select new
+                    {
+                        StudentTestId = studentTest.Id ?? Guid.Empty,
+                        StartDate = studentTest.StartDate,
+                        Question = question,
+                        Result = result,
+                    }
+                ).ToListAsync(); //END-EXECUTE
+
+                //C# PROCESSING
+                var query = questionAndAnswers
+                    .GroupBy(u => new
+                    {
+                        StudentTestId = u.StudentTestId,
+                        StartDate = u.StartDate
+                    })
+                    .Select(u => new
+                        {
+                            StudentTestId = u.Key.StudentTestId,
+                            StartDate = u.Key.StartDate,
+                            Context = (
+                                from v in u
+                                select new
+                                {
+                                    Question = v.Question,
+                                    Answer = v.Result
+                                }
+                            ).ToList()
+                        }
+                    )
+                    .ToList();
+
+                StudentTestHistory model = new StudentTestHistory();
+
+                model.TestInfo = await dbs.Tests.Where(u => u.Id == testId).FirstOrDefaultAsync();
+                model.TotalScore = await fixedQuestions.CountAsync();
+
+                if (model.TestInfo.Questions != null)
+                    model.TestInfo.Questions.Clear();
+
+                List<StudentTestHistoryItem> histories = new List<StudentTestHistoryItem>();
+                model.Histories = histories;
+
+                foreach (var studentTest in query)
+                {
+                    StudentTestHistoryItem history = new StudentTestHistoryItem();
+
+                    history.StartDate = studentTest.StartDate ?? DateTime.MinValue;
+                    history.Score = studentTest.Context.Sum(u =>
+                    {
+                        var questionModel = QuestionModelFactory.FromJsonString(u.Question.Content ?? "");
+                        string? answer = null;
+                        if (u.Answer != null)
+                        {
+                            answer = u.Answer.Result;
+                        }
+                        return questionModel.CalculateScore(answer);
+                    });
+
+                    histories.Add(history);
+                }
+
+                return model;
             }
         }
     }
