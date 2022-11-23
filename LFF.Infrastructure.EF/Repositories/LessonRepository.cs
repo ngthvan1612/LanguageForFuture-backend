@@ -106,7 +106,33 @@ namespace LFF.Infrastructure.EF.Repositories
 
                 query = query.Include(u => u.Class);
 
+                query = query.Select(u => new Lesson()
+                {
+                    Id = u.Id,
+                    StartTime = u.StartTime,
+                    EndTime = u.EndTime,
+                    CreatedAt = u.CreatedAt,
+                    DeletedAt = u.DeletedAt,
+                    Description = u.Description,
+                    ClassId = u.ClassId,
+                    Class = u.Class,
+                    LastUpdatedAt = u.LastUpdatedAt,
+                    //LessonContent = u.LessonContent,
+                    Name = u.Name
+                });
+
                 return await query.ToListAsync();
+            }
+        }
+
+        public async Task UpdateLessonContentByLessonIdAsync(Lesson lesson)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var entity = await dbs.Lessons.FirstOrDefaultAsync(u => u.Id == lesson.Id);
+                entity.LessonContent = lesson.LessonContent;
+                dbs.Update(entity);
+                await dbs.SaveChangesAsync();
             }
         }
     }

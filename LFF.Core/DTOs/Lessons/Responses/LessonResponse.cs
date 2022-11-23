@@ -18,6 +18,8 @@ namespace LFF.Core.DTOs.Lessons.Responses
 
         public ClassroomResponse Class { get; set; }
 
+        public string? LessonContent { get; set; }
+
         public DateTime? DeletedAt { get; set; }
 
         public DateTime? CreatedAt { get; set; }
@@ -35,6 +37,7 @@ namespace LFF.Core.DTOs.Lessons.Responses
             this.StartTime = lesson.StartTime;
             this.EndTime = lesson.EndTime;
             this.Class = new ClassroomResponse(lesson.Class);
+            this.LessonContent = lesson.LessonContent;
             this.DeletedAt = lesson.DeletedAt;
             this.CreatedAt = lesson.CreatedAt;
             this.LastUpdatedAt = lesson.LastUpdatedAt;

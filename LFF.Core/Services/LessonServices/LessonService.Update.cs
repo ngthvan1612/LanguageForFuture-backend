@@ -1,6 +1,7 @@
 using LFF.Core.Base;
 using LFF.Core.DTOs.Lessons.Requests;
 using LFF.Core.DTOs.Lessons.Responses;
+using LFF.Core.Entities;
 using System;
 using System.Threading.Tasks;
 
@@ -59,6 +60,29 @@ namespace LFF.Core.Services.LessonServices
             //Log
 
             return await Task.FromResult(new UpdateLessonResponse(entity));
+        }
+
+        public async Task<ResponseBase> UpdateLessonContentByLessonIdAsync(Guid lessonId, UpdateLessonContentRequest request)
+        {
+            if (!(await this.aggregateRepository.LessonRepository.CheckLessonExistedByIdAsync(lessonId)))
+            {
+                throw BaseDomainException.BadRequest($"Không tồn tại lớp học nào với mã lớp {lessonId}");
+            }
+
+            if (string.IsNullOrEmpty(request.LessonContent))
+            {
+                throw BaseDomainException.BadRequest($"Nội dung không được trống");
+            }
+
+            var model = new Lesson()
+            {
+                Id = lessonId,
+                LessonContent = request.LessonContent
+            };
+
+            await this.aggregateRepository.LessonRepository.UpdateLessonContentByLessonIdAsync(model);
+
+            return await Task.FromResult(new UpdateLessonContentResponse());
         }
     }
 }

@@ -44,6 +44,13 @@ namespace LFF.API.Controllers.Teacher
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
 
+        [HttpPut("{id:guid}/content")]
+        public async Task<IActionResult> UpdateLessonContent(Guid id, UpdateLessonContentRequest request)
+        {
+            var result = await this._lessonService.UpdateLessonContentByLessonIdAsync(id, request);
+            return this.StatusCode((int)result.GetStatusCode(), result);
+        }
+
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateLesson(Guid id, UpdateLessonRequest model)
         {

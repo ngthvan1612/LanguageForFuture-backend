@@ -9,6 +9,7 @@ namespace LFF.Core.Services.LessonServices
 {
     public interface ILessonService
     {
+        Task<ResponseBase> UpdateLessonContentByLessonIdAsync(Guid lessonId, UpdateLessonContentRequest request);
         Task<ResponseBase> CreateLessonAsync(CreateLessonRequest request);
         Task<ResponseBase> UpdateLessonByIdAsync(Guid id, UpdateLessonRequest request);
         Task<ResponseBase> GetLessonByIdAsync(Guid id);
