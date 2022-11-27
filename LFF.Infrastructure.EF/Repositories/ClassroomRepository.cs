@@ -25,11 +25,7 @@ namespace LFF.Infrastructure.EF.Repositories
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
-                return await dbs.Classrooms.Where(u => u.Id == id)
-                    .Include(u => u.Teacher)
-                    .Include(u => u.Course)
-                    .Include(u => u.Lessons)
-                    .FirstOrDefaultAsync();
+                return await dbs.Classrooms.Where(u => u.Id == id).FirstOrDefaultAsync();
             }
         }
 
