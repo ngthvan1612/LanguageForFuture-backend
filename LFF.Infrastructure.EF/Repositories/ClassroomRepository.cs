@@ -115,7 +115,7 @@ namespace LFF.Infrastructure.EF.Repositories
                             query = from classroom in query
                                     join register in dbs.Registers on classroom.Id equals register.ClassId
                                     join student in dbs.Users on register.StudentId equals student.Id
-                                    where student.Id == guid
+                                    where student.Id == guid && register.DeletedAt == null
                                     select classroom;
                         }
                     }

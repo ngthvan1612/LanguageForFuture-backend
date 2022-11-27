@@ -40,7 +40,7 @@ namespace LFF.Infrastructure.EF.Repositories
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
-                return await dbs.Registers.AnyAsync(u => u.StudentId == studentId && u.ClassId == classId);
+                return await dbs.Registers.Where(u => u.DeletedAt == null).AnyAsync(u => u.StudentId == studentId && u.ClassId == classId);
             }
         }
 
