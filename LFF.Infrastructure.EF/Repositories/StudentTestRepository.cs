@@ -83,7 +83,7 @@ namespace LFF.Infrastructure.EF.Repositories
                     }
                     else if (tokens[0] == "is_running")
                     {
-                        if (tokens[0] == "equal")
+                        if (tokens[1] == "equal")
                         {
                             if (q.Values[0] == "true")
                             {
