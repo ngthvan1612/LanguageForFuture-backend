@@ -70,6 +70,17 @@ namespace LFF.Infrastructure.EF.Repositories
                             query = query.Where(u => u.QuestionType == q.Values[0]);
                         else throw new ArgumentException($"Unknown query {q.Name}");
                     }
+                    else if (tokens[0] == "test_id")
+                    {
+                        if (tokens[1] == "equal")
+                        {
+                            Guid testId = Guid.Parse(q.Values[0]);
+                            query = from question in query
+                                    where question.TestId == testId
+                                    select question;
+                        }
+                        else throw new ArgumentException($"Unknown query {q.Name}");
+                    }
                     else throw new ArgumentException($"Unknown query {q.Name}");
                 }
 
