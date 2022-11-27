@@ -83,18 +83,22 @@ namespace LFF.Infrastructure.EF.Repositories
                     }
                     else if (tokens[0] == "is_running")
                     {
-                        if (q.Values[0] == "true")
+                        if (tokens[0] == "equal")
                         {
-                            query = from studentTest in query
-                                    join test in dbs.GetFixedTests() on studentTest.TestId equals test.Id
-                                    where studentTest.StartDate <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time ?? 0)
-                                    select studentTest;
+                            if (q.Values[0] == "true")
+                            {
+                                query = from studentTest in query
+                                        join test in dbs.GetFixedTests() on studentTest.TestId equals test.Id
+                                        where studentTest.StartDate <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time ?? 0)
+                                        select studentTest;
+                            }
+                            else if (q.Values[0] == "false")
+                            {
+                                //Nothing
+                            }
+                            else throw new ArgumentException($"Unknown value {q.Values[0]}");
                         }
-                        else if (q.Values[0] == "false")
-                        {
-                            //Nothing
-                        }
-                        else throw new ArgumentException($"Unknown value {q.Values[0]}");
+                        else throw new ArgumentException($"Unknown query {q.Name}");
                     }
                     else throw new ArgumentException($"Unknown query {q.Name}");
                 }
