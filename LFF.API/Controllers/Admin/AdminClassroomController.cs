@@ -37,6 +37,13 @@ namespace LFF.API.Controllers.Admin
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
 
+        [HttpGet("listClassroomsWithNumberOfStudents")]
+        public async Task<IActionResult> ListClassroomsWithNumberOfStudents()
+        {
+            var result = await this._classroomService.ListClassroomsWithNumberOfStudents();
+            return this.StatusCode((int)result.GetStatusCode(), result);
+        }
+
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetClassroom(Guid id)
         {

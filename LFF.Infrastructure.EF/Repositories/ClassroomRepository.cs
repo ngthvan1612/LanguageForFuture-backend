@@ -1,5 +1,6 @@
 using LFF.Core.DTOs.Base;
 using LFF.Core.Entities;
+using LFF.Core.Entities.Supports;
 using LFF.Core.Repositories;
 using LFF.Infrastructure.EF.DataAccess;
 using Microsoft.EntityFrameworkCore;
@@ -151,6 +152,64 @@ namespace LFF.Infrastructure.EF.Repositories
                 }
 
                 return result.Select(u => u.classroom);
+            }
+        }
+
+        public async Task<List<ClassroomWithNumberOfStudents>> ListClassroomWithNumberOfStudents()
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var availableRegisters = from register in dbs.GetFixedRegisters()
+                                         join student in dbs.GetFixedUsers() on register.StudentId equals student.Id
+                                         where student.Role == UserRoles.Student
+                                         select register;
+
+                var rawClassroom = from classroom in dbs.GetFixedClassrooms()
+                            join _register in availableRegisters on classroom.Id equals _register.ClassId into g
+                            from register in g.DefaultIfEmpty()
+                            group register by new
+                            {
+                                ClassroomId = classroom.Id,
+                                ClassroomName = classroom.Name,
+                                CourseId = classroom.CourseId,
+                                TeacherId = classroom.TeacherId
+                            } into h
+                            select new
+                            {
+                                NumberOfStudents = h.Count(u => u.ClassId != null),
+                                Id = h.Key.ClassroomId,
+                                Name = h.Key.ClassroomName,
+                                CourseId = h.Key.CourseId,
+                                TeacherId = h.Key.TeacherId,
+                            };
+
+                var test = await rawClassroom.ToListAsync();
+
+                var teachers = from user in dbs.GetFixedUsers()
+                              where user.DeletedAt == null && user.Role == UserRoles.Teacher
+                              select new User()
+                              {
+                                  Id = user.Id,
+                                  Username = user.Username,
+                                  Role = user.Role,
+                                  Email = user.Email,
+                                  FullName = user.FullName,
+                              };
+
+                var query = from classroom in rawClassroom
+                            join course in dbs.GetFixedCourses() on classroom.CourseId equals course.Id
+                            join teacher in teachers on classroom.TeacherId equals teacher.Id
+                            where teacher.Role == UserRoles.Teacher
+                            select new ClassroomWithNumberOfStudents()
+                            {
+                                NumberOfStudents = classroom.NumberOfStudents,
+                                Course = course,
+                                Teacher = teacher,
+                                Id = classroom.Id,
+                                Name = classroom.Name
+                            };
+
+                return await query.ToListAsync();
             }
         }
     }
