@@ -121,5 +121,41 @@ namespace LFF.Infrastructure.EF.Repositories
                 }
             }
         }
+
+        public async Task<List<StudentTestResult>> GetTestStatus(Guid studentTestId)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var questions = from test in dbs.Tests
+                                join studentTest in dbs.StudentTests on test.Id equals studentTest.TestId
+                                join question in dbs.GetFixedQuestions() on test.Id equals question.TestId
+                                where studentTest.Id == studentTestId
+                                select question;
+
+                var results = from result in dbs.GetFixedStudentTestResults()
+                              where result.StudentTestId == studentTestId
+                              select result;
+
+                var query = from question in questions
+                            join _result in results on question.Id equals _result.QuestionId into g
+                            from result in g.DefaultIfEmpty()
+                            select new
+                            {
+                                Question = question,
+                                Answer = result
+                            };
+
+                var cs = await query.ToListAsync(); //End Sql execute
+
+                var res = from output in cs
+                          select new StudentTestResult()
+                          {
+                              Question = output.Question,
+                              Result = output.Answer?.Result
+                          };
+
+                return res.ToList();
+            }
+        }
     }
 }
