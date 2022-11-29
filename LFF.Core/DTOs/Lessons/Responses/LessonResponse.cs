@@ -26,6 +26,10 @@ namespace LFF.Core.DTOs.Lessons.Responses
 
         public DateTime? LastUpdatedAt { get; set; }
 
+        public bool? IsApproved { get; set; }
+
+        public string? Reason { get; set; }
+
         public LessonResponse(Lesson lesson)
         {
             if (lesson == null)
@@ -41,6 +45,8 @@ namespace LFF.Core.DTOs.Lessons.Responses
             this.DeletedAt = lesson.DeletedAt;
             this.CreatedAt = lesson.CreatedAt;
             this.LastUpdatedAt = lesson.LastUpdatedAt;
+            this.IsApproved = lesson.IsApproved;
+            this.Reason = lesson.ReasonForNotApproving;
         }
     }
 }

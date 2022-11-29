@@ -22,11 +22,11 @@ namespace LFF.Core.Services.LessonServices
             return await Task.FromResult(new GetLessonResponse(entity));
         }
 
-        public virtual async Task<ResponseBase> ListLessonAsync(IEnumerable<SearchQueryItem> queries)
+        public virtual async Task<ResponseBase> ListLessonAsync(IEnumerable<SearchQueryItem> queries, bool includeNotApprovingLesson)
         {
             var lessonRepository = this.aggregateRepository.LessonRepository;
 
-            var raws = await lessonRepository.ListByQueriesAsync(queries);
+            var raws = await lessonRepository.ListByQueriesAsync(queries, includeNotApprovingLesson);
             return await Task.FromResult(new ListLessonResponse(raws));
         }
     }

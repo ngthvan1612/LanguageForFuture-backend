@@ -33,7 +33,7 @@ namespace LFF.API.Controllers.Admin
         public async Task<IActionResult> ListLessons()
         {
             var queries = this.TransferHttpQueriesToDomainSearchQueries();
-            var result = await this._lessonService.ListLessonAsync(queries);
+            var result = await this._lessonService.ListLessonAsync(queries, true);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
 
@@ -41,6 +41,14 @@ namespace LFF.API.Controllers.Admin
         public async Task<IActionResult> GetLesson(Guid id)
         {
             var result = await this._lessonService.GetLessonByIdAsync(id);
+            return this.StatusCode((int)result.GetStatusCode(), result);
+        }
+
+        [HttpPut("{id:guid}/update-approval")]
+        public async Task<IActionResult> UpdateApproval(Guid id, UpdateLessonApprovalRequest request)
+        {
+            request.LessonId = id;
+            var result = await this._lessonService.UpdateApprovalByIdAsync(request);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
 

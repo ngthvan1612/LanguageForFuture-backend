@@ -7,8 +7,31 @@ using System.Threading.Tasks;
 
 namespace LFF.Core.Services.LessonServices
 {
-    public partial class LessonService
+    public partial class LessonService : ILessonService
     {
+        public async Task<ResponseBase> UpdateApprovalByIdAsync(UpdateLessonApprovalRequest request)
+        {
+            var lessonEntity = await this.aggregateRepository.LessonRepository.GetByIdAsync(request.LessonId);
+
+            if (lessonEntity is null)
+                throw BaseDomainException.NotFound($"Không tìm thấy buổi học nào với id = {request.LessonId}");
+
+            Lesson entity = new Lesson();
+
+            if (request.Reason != null)
+                request.Reason = request.Reason.Trim().Trim('\n', '\r', ' ', '\t');
+
+            if (request.IsApproved == false && (string.IsNullOrEmpty(request.Reason)))
+                throw BaseDomainException.BadRequest($"Khi không duyệt bài học phải có lý do không duyệt");
+
+            entity.Id = request.LessonId;
+            entity.IsApproved = request.IsApproved;
+            entity.ReasonForNotApproving = request.Reason;
+
+            await this.aggregateRepository.LessonRepository.UpdateApprovalAsync(entity);
+
+            return SuccessResponseBase.Send("Cập nhật thông tin buổi học thành công");
+        }
 
         public virtual async Task<ResponseBase> UpdateLessonByIdAsync(Guid id, UpdateLessonRequest model)
         {

@@ -33,7 +33,7 @@ namespace LFF.API.Controllers.Teacher
         public async Task<IActionResult> ListLessons()
         {
             var queries = this.TransferHttpQueriesToDomainSearchQueries();
-            var result = await this._lessonService.ListLessonAsync(queries);
+            var result = await this._lessonService.ListLessonAsync(queries, true);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
 
