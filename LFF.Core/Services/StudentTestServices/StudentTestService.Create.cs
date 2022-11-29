@@ -40,7 +40,7 @@ namespace LFF.Core.Services.StudentTestServices
             }
 
             //Validate có đang kiểm tra gì không?
-            if (await studentTestRepository.IsDoingAnyTest(model.StudentId))
+            if (await this.aggregateRepository.TestRepository.IsDoingAnyTest(model.StudentId))
                 throw BaseDomainException.BadRequest("Bạn đang có một bài kiểm tra chưa hoàn tất");
 
             //Validate thời gian làm bài
@@ -53,7 +53,7 @@ namespace LFF.Core.Services.StudentTestServices
             //Validate số lần làm bài
             if (currentTest.NumberOfAttempts >= 0)
             {
-                int numberOfTimes = await studentTestRepository.NumberOfTimesAttemptTest(model.StudentId, model.TestId);
+                int numberOfTimes = await this.aggregateRepository.TestRepository.NumberOfTimesAttemptTest(model.StudentId, model.TestId);
                 if (numberOfTimes + 1 > currentTest.NumberOfAttempts)
                     throw BaseDomainException.BadRequest($"Bài kiểm tra này chỉ có thể làm tối đa {currentTest.NumberOfAttempts} lần");
             }
