@@ -107,33 +107,5 @@ namespace LFF.Infrastructure.EF.Repositories
                 return true;
             }
         }
-
-        public async Task<int> NumberOfTimesAttemptTest(Guid studentId, Guid testId)
-        {
-            using (var dbs = this.dbFactory.CreateDbContext())
-            {
-                return await dbs.StudentTests
-                    .Where(u => u.StudentId == studentId && u.TestId == testId)
-                    .Where(u => u.DeletedAt == null)
-                    .CountAsync();
-            }
-        }
-
-        public async Task<bool> IsDoingAnyTest(Guid studentId)
-        {
-            using (var dbs = this.dbFactory.CreateDbContext())
-            {
-                var currentDatetime = DateTime.Now;
-                var query = from studentTest in dbs.StudentTests
-                            join test in dbs.Tests on studentTest.TestId equals test.Id
-                            where
-                                studentTest.DeletedAt == null &&
-                                test.DeletedAt == null &&
-                                studentTest.StudentId == studentId &&
-                                studentTest.StartDate <= currentDatetime && currentDatetime <= studentTest.StartDate.Value.AddMinutes(test.Time ?? 0)
-                            select 1;
-                return await query.AnyAsync();
-            }
-        }
     }
 }
