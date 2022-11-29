@@ -16,6 +16,8 @@ namespace LFF.Core.Entities
         private DateTime? _deletedAt;
         private DateTime? _createdAt;
         private DateTime? _lastUpdatedAt;
+        private bool? _isApproved;
+        private string? _reasonForNotApproving;
 
         public Guid? Id
         {
@@ -75,6 +77,18 @@ namespace LFF.Core.Entities
         {
             get { return this._lastUpdatedAt; }
             set { this._lastUpdatedAt = value; }
+        }
+
+        public bool? IsApproved
+        {
+            get => this._isApproved;
+            set => this._isApproved = value;
+        }
+
+        public string? ReasonForNotApproving
+        {
+            get => this._reasonForNotApproving;
+            set => this._reasonForNotApproving = value;
         }
 
         public Classroom Class { get; set; }
