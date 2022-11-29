@@ -12,6 +12,6 @@ namespace LFF.Core.Repositories
         Task<T> GetByIdAsync(Guid id);
         Task<IEnumerable<T>> ListAllAsync();
         Task<IEnumerable<T>> ListByQueriesAsync(IEnumerable<SearchQueryItem> queries);
-        Task<int> NumberOfTimesAttemptTest(Guid studentId, Guid testId);
+        Task<bool> DeleteAsync(T entity);
     }
 }

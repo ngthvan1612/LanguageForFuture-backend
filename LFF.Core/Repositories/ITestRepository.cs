@@ -10,7 +10,7 @@ namespace LFF.Core.Repositories
         Task<Test> GetTestByIdAsync(Guid id);
         Task<StudentTestHistory> GetStudentTestHistory(Guid studentId, Guid testId);
         Task<bool> CheckTestExistedByIdAsync(Guid id);
+        Task<int> NumberOfTimesAttemptTest(Guid studentId, Guid testId);
         Task<bool> IsDoingAnyTest(Guid studentId);
-        Task<bool> DeleteAsync(T entity);
     }
 }
