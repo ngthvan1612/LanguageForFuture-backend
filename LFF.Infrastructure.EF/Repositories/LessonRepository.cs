@@ -116,6 +116,7 @@ namespace LFF.Infrastructure.EF.Repositories
                 Class = u.Class,
                 LastUpdatedAt = u.LastUpdatedAt,
                 IsApproved = u.IsApproved,
+                ReasonForNotApproving = u.ReasonForNotApproving,
                 //LessonContent = u.LessonContent,
                 Name = u.Name
             });
