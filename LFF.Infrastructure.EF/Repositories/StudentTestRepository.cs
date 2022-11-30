@@ -127,5 +127,10 @@ namespace LFF.Infrastructure.EF.Repositories
                 return result;
             }
         }
+
+        public Task AutoChangeStateSubmission()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
