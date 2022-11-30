@@ -13,16 +13,16 @@ namespace LFF.Infrastructure.EF.Extensions
 
         public static IServiceCollection RegisterRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ICourseRepository, CourseRepository>();
-            services.AddScoped<IClassroomRepository, ClassroomRepository>();
-            services.AddScoped<ILessonRepository, LessonRepository>();
-            services.AddScoped<ILectureRepository, LectureRepository>();
-            services.AddScoped<IRegisterRepository, RegisterRepository>();
-            services.AddScoped<ITestRepository, TestRepository>();
-            services.AddScoped<IQuestionRepository, QuestionRepository>();
-            services.AddScoped<IStudentTestRepository, StudentTestRepository>();
-            services.AddScoped<IStudentTestResultRepository, StudentTestResultRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<ICourseRepository, CourseRepository>();
+            services.AddSingleton<IClassroomRepository, ClassroomRepository>();
+            services.AddSingleton<ILessonRepository, LessonRepository>();
+            services.AddSingleton<ILectureRepository, LectureRepository>();
+            services.AddSingleton<IRegisterRepository, RegisterRepository>();
+            services.AddSingleton<ITestRepository, TestRepository>();
+            services.AddSingleton<IQuestionRepository, QuestionRepository>();
+            services.AddSingleton<IStudentTestRepository, StudentTestRepository>();
+            services.AddSingleton<IStudentTestResultRepository, StudentTestResultRepository>();
 
             services.AddScoped<IAggregateRepository, AggregateRepository>();
 

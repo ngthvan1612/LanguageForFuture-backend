@@ -2,6 +2,7 @@
 using LFF.API.Helpers;
 using LFF.API.Helpers.Authorization.Middleware;
 using LFF.API.Middleware;
+using LFF.BackgroundServices.AutoSubmit;
 using LFF.Core.Extensions;
 using LFF.Infrastructure.EF.Extensions;
 using LFF.Infrastructure.EF.Utils.PasswordUtils;
@@ -81,6 +82,8 @@ namespace LFF.API
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+
+            services.AddHostedService<AutoSubmitService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

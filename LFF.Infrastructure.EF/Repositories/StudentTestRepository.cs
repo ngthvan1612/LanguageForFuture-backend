@@ -128,9 +128,23 @@ namespace LFF.Infrastructure.EF.Repositories
             }
         }
 
-        public Task AutoChangeStateSubmission()
+        public async Task AutoChangeStateSubmission()
         {
-            throw new NotImplementedException();
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var needUpdates = from studentTest in dbs.GetFixedStudentTests()
+                                  join test in dbs.GetFixedTests() on studentTest.TestId equals test.Id
+                                  where studentTest.StartDate.Value.AddMinutes(test.Time.Value) < DateTime.Now
+                                  where studentTest.SubmittedOn == null
+                                  select studentTest;
+
+                await needUpdates.ForEachAsync(u => u.SubmittedOn = DateTime.Now);
+
+                foreach (var u in needUpdates)
+                    Console.Write(u.Id);
+
+                await dbs.SaveChangesAsync();
+            }
         }
     }
 }

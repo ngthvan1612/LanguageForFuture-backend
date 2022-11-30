@@ -25,11 +25,10 @@ namespace LFF.BackgroundServices.AutoSubmit
                 try
                 {
                     await studentTestRepository.AutoChangeStateSubmission();
-                    Console.WriteLine("OK... {0}", ++counter);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
+                    Console.WriteLine(e.Message);
                 }
                 await Task.Delay(250);
             }
