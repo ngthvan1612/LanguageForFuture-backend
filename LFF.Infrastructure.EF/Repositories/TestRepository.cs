@@ -162,7 +162,7 @@ namespace LFF.Infrastructure.EF.Repositories
                 var fixedStudentTests = from studentTest in dbs.GetFixedStudentTests()
                                         join test in dbs.GetFixedTests() on studentTest.TestId equals test.Id
                                         where studentTest.SubmittedOn != null || !(studentTest.StartDate.Value <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time.Value))
-                                        where studentTest.Id == studentId && studentTest.TestId == testId
+                                        where studentTest.StudentId == studentId && studentTest.TestId == testId
                                         select studentTest;
 
                 var fixedResults = from result in dbs.StudentTestResults
