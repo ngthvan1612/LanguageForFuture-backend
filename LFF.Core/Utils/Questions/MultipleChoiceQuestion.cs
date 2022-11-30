@@ -45,7 +45,7 @@ namespace LFF.Core.Utils.Questions
 
         public object Clone()
         {
-            return new MultipleChoiceQuestionContent("");
+            return new MultipleChoiceQuestionContent(this.Raw);
         }
     }
 
@@ -83,7 +83,9 @@ namespace LFF.Core.Utils.Questions
             var question = new MultipleChoiceQuestion()
             {
                 Question = (MultipleChoiceQuestionContent)this.Question.Clone(),
-                Answer = this.Answer,
+                Meta = this.Meta,
+                Choices = this.Choices,
+                Answer = "",
             };
             return question;
         }
