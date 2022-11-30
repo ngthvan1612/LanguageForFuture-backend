@@ -78,7 +78,7 @@ namespace LFF.Core.Utils.Questions
         /// Chế độ xem (truyền cho học viên): xóa bỏ các trường liên quan đến kết quả
         /// </summary>
         /// <returns></returns>
-        public MultipleChoiceQuestion AsView()
+        public override QuestionModelAbstract AsView()
         {
             var question = new MultipleChoiceQuestion()
             {

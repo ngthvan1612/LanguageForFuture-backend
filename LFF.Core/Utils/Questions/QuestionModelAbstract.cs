@@ -70,6 +70,8 @@ namespace LFF.Core.Utils.Questions
                 throw BaseDomainException.BadRequest($"Không rõ mã định danh câu hỏi <'{this.Meta.Type}'>");
         }
 
+        public abstract QuestionModelAbstract AsView();
+
         public abstract bool CheckAnswerIsValid(object? answer);
 
         public abstract bool CheckAnswer(object? answer);
