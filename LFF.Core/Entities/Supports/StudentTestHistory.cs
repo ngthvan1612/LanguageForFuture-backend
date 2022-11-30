@@ -8,6 +8,7 @@ namespace LFF.Core.Entities.Supports
     {
         public DateTime StartDate { get; set; }
         public int Score { get; set; } = -1;
+        public Guid StudentTestId { get; set; }
     }
 
     public class StudentTestHistory

@@ -227,6 +227,7 @@ namespace LFF.Infrastructure.EF.Repositories
                 {
                     StudentTestHistoryItem history = new StudentTestHistoryItem();
 
+                    history.StudentTestId = studentTest.StudentTestId;
                     history.StartDate = studentTest.StartDate ?? DateTime.MinValue;
                     history.Score = studentTest.Context.Sum(u =>
                     {
