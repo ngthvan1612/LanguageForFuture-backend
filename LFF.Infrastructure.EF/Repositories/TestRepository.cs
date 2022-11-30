@@ -156,8 +156,14 @@ namespace LFF.Infrastructure.EF.Repositories
                 var testEntity = dbs.Tests.FirstOrDefault(u => u.Id == testId);
                 var studentEntity = dbs.Users.FirstOrDefault(u => u.Id == studentId && u.DeletedAt == null);
 
-                var fixedStudentTests = dbs.StudentTests.Where(u => u.DeletedAt == null)
-                    .Where(u => u.TestId == testId && u.StudentId == studentId);
+                //var fixedStudentTests = dbs.StudentTests.Where(u => u.DeletedAt == null)
+                //    .Where(u => u.SubmittedOn != null || )
+                //    .Where(u => u.TestId == testId && u.StudentId == studentId);
+                var fixedStudentTests = from studentTest in dbs.GetFixedStudentTests()
+                                        join test in dbs.GetFixedTests() on studentTest.TestId equals test.Id
+                                        where studentTest.SubmittedOn != null || !(studentTest.StartDate.Value <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time.Value))
+                                        where studentTest.Id == studentId && studentTest.TestId == testId
+                                        select studentTest;
 
                 var fixedResults = from result in dbs.StudentTestResults
                                               join studentTest in fixedStudentTests on result.StudentTestId equals studentTest.Id
