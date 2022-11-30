@@ -160,7 +160,7 @@ namespace LFF.Infrastructure.EF.Repositories
                         join test in dbs.Tests on studentTest.TestId equals test.Id
                         where studentTest.SubmittedOn == null && studentTest.StartDate.Value <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time.Value)
                         select studentTest
-                    ).FirstOrDefaultAsync() == null;
+                    ).FirstOrDefaultAsync() != null;
 
                 if (isRunning)
                 {
