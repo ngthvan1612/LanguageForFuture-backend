@@ -1,6 +1,7 @@
 using LFF.Core.DTOs.Base;
 using LFF.Core.Entities;
 using LFF.Core.Repositories;
+using LFF.Core.Utils.Questions;
 using LFF.Infrastructure.EF.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -153,6 +154,26 @@ namespace LFF.Infrastructure.EF.Repositories
                               Question = output.Question,
                               Result = output.Answer?.Result
                           };
+
+                bool isRunning = await (
+                        from studentTest in dbs.StudentTests
+                        join test in dbs.Tests on studentTest.TestId equals test.Id
+                        where studentTest.SubmittedOn == null && studentTest.StartDate.Value <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time.Value)
+                        select studentTest
+                    ).FirstOrDefaultAsync() == null;
+
+                if (isRunning)
+                {
+                    foreach (var output in res)
+                    {
+                        try
+                        {
+                            var instance = QuestionModelFactory.FromJsonString(output.Question.Content);
+                            output.Question.Content = QuestionModelFactory.ToJsonString(instance.AsView());
+                        }
+                        catch { }
+                    }
+                }
 
                 return res.ToList();
             }
