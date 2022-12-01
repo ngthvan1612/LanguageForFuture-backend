@@ -140,9 +140,20 @@ namespace LFF.Infrastructure.EF.Repositories
 
                 await needUpdates.ForEachAsync(u => u.SubmittedOn = DateTime.Now);
 
-                foreach (var u in needUpdates)
-                    Console.Write(u.Id);
+                //foreach (var u in needUpdates)
+                //    Console.Write(u.Id);
 
+                await dbs.SaveChangesAsync();
+            }
+        }
+
+        public async Task SubmitTestAsync(Guid id)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var studentTest = dbs.StudentTests.FirstOrDefault(u => u.Id == id);
+                if (studentTest != null)
+                    studentTest.SubmittedOn = DateTime.Now;
                 await dbs.SaveChangesAsync();
             }
         }

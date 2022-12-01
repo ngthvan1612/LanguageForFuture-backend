@@ -64,5 +64,13 @@ namespace LFF.API.Controllers.Student
             var result = await this._studentTestService.GetTestStatusAsync(studentTestId);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
+
+
+        [HttpPost("{id:guid}/submit")]
+        public async Task<IActionResult> Submit(Guid id)
+        {
+            var result = await this._studentTestService.SubmitAsync(id);
+            return this.StatusCode((int)result.GetStatusCode(), result);
+        }
     }
 }
