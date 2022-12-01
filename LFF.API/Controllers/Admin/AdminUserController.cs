@@ -57,5 +57,12 @@ namespace LFF.API.Controllers.Admin
             var result = await this._userService.DeleteUserByIdAsync(id);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
+
+        [HttpPost("{id:guid}/update-password")]
+        public async Task<IActionResult> UpdatePassword(Guid id, UpdatePasswordRequest request)
+        {
+            var result = await this._userService.UpdatePasswordByIdAsync(request);
+            return this.StatusCode((int)result.GetStatusCode(), result);
+        }
     }
 }

@@ -18,5 +18,6 @@ namespace LFF.Core.Repositories
         Task<bool> CheckUserExistedByEmailExceptIdAsync(Guid id, string email);
         Task<bool> CheckUserExistedByCMNDAsync(string cMND);
         Task<bool> CheckUserExistedByCMNDExceptIdAsync(Guid id, string cMND);
+        Task UpdatePasswordByIdAsync(Guid userId, string? password);
     }
 }
