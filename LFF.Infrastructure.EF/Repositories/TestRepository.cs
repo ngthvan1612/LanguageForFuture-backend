@@ -276,7 +276,8 @@ namespace LFF.Infrastructure.EF.Repositories
                                 studentTest.DeletedAt == null &&
                                 test.DeletedAt == null &&
                                 studentTest.StudentId == studentId &&
-                                studentTest.StartDate <= currentDatetime && currentDatetime <= studentTest.StartDate.Value.AddMinutes(test.Time ?? 0)
+                                studentTest.StartDate <= currentDatetime && currentDatetime <= studentTest.StartDate.Value.AddMinutes(test.Time ?? 0) &&
+                                studentTest.SubmittedOn == null
                             select 1;
                 return await query.AnyAsync();
             }
