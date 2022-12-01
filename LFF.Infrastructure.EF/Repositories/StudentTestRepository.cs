@@ -89,7 +89,7 @@ namespace LFF.Infrastructure.EF.Repositories
                             {
                                 query = from studentTest in query
                                         join test in dbs.GetFixedTests() on studentTest.TestId equals test.Id
-                                        where studentTest.StartDate <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time ?? 0)
+                                        where studentTest.StartDate <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time ?? 0) && studentTest.SubmittedOn == null
                                         select studentTest;
                             }
                             else if (q.Values[0] == "false")
