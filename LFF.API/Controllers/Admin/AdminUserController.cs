@@ -61,6 +61,7 @@ namespace LFF.API.Controllers.Admin
         [HttpPost("{id:guid}/update-password")]
         public async Task<IActionResult> UpdatePassword(Guid id, UpdatePasswordRequest request)
         {
+            request.UserId = id;
             var result = await this._userService.UpdatePasswordByIdAsync(request);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
