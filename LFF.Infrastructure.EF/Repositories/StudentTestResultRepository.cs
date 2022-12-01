@@ -1,6 +1,7 @@
 using LFF.Core.DTOs.Base;
 using LFF.Core.Entities;
 using LFF.Core.Repositories;
+using LFF.Core.Utils.Questions;
 using LFF.Infrastructure.EF.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -119,6 +120,63 @@ namespace LFF.Infrastructure.EF.Repositories
                     await dbs.SaveChangesAsync();
                     return studentTestResult;
                 }
+            }
+        }
+
+        public async Task<List<StudentTestResult>> GetTestStatus(Guid studentTestId)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var questions = from test in dbs.Tests
+                                join studentTest in dbs.StudentTests on test.Id equals studentTest.TestId
+                                join question in dbs.GetFixedQuestions() on test.Id equals question.TestId
+                                where studentTest.Id == studentTestId
+                                select question;
+
+                var results = from result in dbs.GetFixedStudentTestResults()
+                              where result.StudentTestId == studentTestId
+                              select result;
+
+                var query = from question in questions
+                            join _result in results on question.Id equals _result.QuestionId into g
+                            from result in g.DefaultIfEmpty()
+                            select new
+                            {
+                                Question = question,
+                                Answer = result
+                            };
+
+                var cs = await query.ToListAsync(); //End Sql execute
+
+                var res = from output in cs
+                          select new StudentTestResult()
+                          {
+                              Question = output.Question,
+                              Result = output.Answer?.Result
+                          };
+
+                bool isRunning = await (
+                        from studentTest in dbs.StudentTests
+                        join test in dbs.Tests on studentTest.TestId equals test.Id
+                        where studentTest.SubmittedOn == null && studentTest.StartDate.Value <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time.Value)
+                        where studentTest.Id == studentTestId
+                        select studentTest
+                    ).FirstOrDefaultAsync() != null;
+
+                if (isRunning)
+                {
+                    foreach (var output in res)
+                    {
+                        try
+                        {
+                            var instance = QuestionModelFactory.FromJsonString(output.Question.Content);
+                            output.Question.Content = QuestionModelFactory.ToJsonString(instance.AsView());
+                        }
+                        catch { }
+                    }
+                }
+
+                return res.ToList();
             }
         }
     }

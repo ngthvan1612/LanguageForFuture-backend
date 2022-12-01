@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LFF.Core.Services.ClassroomServices
 {
-    public partial class ClassroomService
+    public partial class ClassroomService : IClassroomService
     {
 
         public virtual async Task<ResponseBase> GetClassroomByIdAsync(Guid id)
@@ -18,7 +18,7 @@ namespace LFF.Core.Services.ClassroomServices
 
             if (entity == null)
                 throw BaseDomainException.NotFound($"Không tìm thấy lớp học nào với Id = {id}");
-            Console.WriteLine("lay du lieu xong");
+            //Console.WriteLine("lay du lieu xong");
             return await Task.FromResult(new GetClassroomResponse(entity));
         }
 
@@ -40,6 +40,12 @@ namespace LFF.Core.Services.ClassroomServices
 
             var raws = await classroomRepository.ListByQueriesAsync(queries);
             return await Task.FromResult(new ListClassroomResponse(raws));
+        }
+
+        public async Task<ResponseBase> ListClassroomsWithNumberOfStudents()
+        {
+            var result = await this.aggregateRepository.ClassroomRepository.ListClassroomWithNumberOfStudents();
+            return new ListClassroomsWithNumberOfStudentsResponse(result);
         }
     }
 }

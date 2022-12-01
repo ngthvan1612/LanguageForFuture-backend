@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -156,8 +157,14 @@ namespace LFF.Infrastructure.EF.Repositories
                 var testEntity = dbs.Tests.FirstOrDefault(u => u.Id == testId);
                 var studentEntity = dbs.Users.FirstOrDefault(u => u.Id == studentId && u.DeletedAt == null);
 
-                var fixedStudentTests = dbs.StudentTests.Where(u => u.DeletedAt == null)
-                    .Where(u => u.TestId == testId && u.StudentId == studentId);
+                //var fixedStudentTests = dbs.StudentTests.Where(u => u.DeletedAt == null)
+                //    .Where(u => u.SubmittedOn != null || )
+                //    .Where(u => u.TestId == testId && u.StudentId == studentId);
+                var fixedStudentTests = from studentTest in dbs.GetFixedStudentTests()
+                                        join test in dbs.GetFixedTests() on studentTest.TestId equals test.Id
+                                        where studentTest.SubmittedOn != null || !(studentTest.StartDate.Value <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time.Value))
+                                        where studentTest.StudentId == studentId && studentTest.TestId == testId
+                                        select studentTest;
 
                 var fixedResults = from result in dbs.StudentTestResults
                                               join studentTest in fixedStudentTests on result.StudentTestId equals studentTest.Id
@@ -227,6 +234,7 @@ namespace LFF.Infrastructure.EF.Repositories
                 {
                     StudentTestHistoryItem history = new StudentTestHistoryItem();
 
+                    history.StudentTestId = studentTest.StudentTestId;
                     history.StartDate = studentTest.StartDate ?? DateTime.MinValue;
                     history.Score = studentTest.Context.Sum(u =>
                     {
@@ -243,6 +251,92 @@ namespace LFF.Infrastructure.EF.Repositories
                 }
 
                 return model;
+            }
+        }
+
+        public async Task<int> NumberOfTimesAttemptTest(Guid studentId, Guid testId)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                return await dbs.StudentTests
+                    .Where(u => u.StudentId == studentId && u.TestId == testId)
+                    .Where(u => u.DeletedAt == null)
+                    .CountAsync();
+            }
+        }
+
+        public async Task<bool> IsDoingAnyTest(Guid studentId)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var currentDatetime = DateTime.Now;
+                var query = from studentTest in dbs.StudentTests
+                            join test in dbs.Tests on studentTest.TestId equals test.Id
+                            where
+                                studentTest.DeletedAt == null &&
+                                test.DeletedAt == null &&
+                                studentTest.StudentId == studentId &&
+                                studentTest.StartDate <= currentDatetime && currentDatetime <= studentTest.StartDate.Value.AddMinutes(test.Time ?? 0) &&
+                                studentTest.SubmittedOn == null
+                            select 1;
+                return await query.AnyAsync();
+            }
+        }
+
+        public async Task ImportListQuestions(Guid testId, Stream stream)
+        {
+            using var reader = new StreamReader(stream);
+            string jsonStr = await reader.ReadToEndAsync();
+            dynamic json;
+            List<QuestionModelAbstract> questions = new List<QuestionModelAbstract>();
+            try
+            {
+                json = JsonConvert.DeserializeObject(jsonStr);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Không đọc được dữ liệu");
+            }
+            int counter = 0;
+            foreach (var question in json)
+            {
+                counter++;
+                try
+                {
+                    var questionInstance = QuestionModelFactory.FromJsonString(JsonConvert.SerializeObject(question));
+                    questions.Add(questionInstance);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Câu {counter} lỗi: {e.Message}");
+                }
+            }
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                using (var transaction = await dbs.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        foreach (var question in questions)
+                        {
+                            dbs.Questions.Add(new Question()
+                            {
+                                Content = QuestionModelFactory.ToJsonString(question),
+                                CreatedAt = DateTime.Now,
+                                LastUpdatedAt = DateTime.Now,
+                                QuestionType = "MULTIPLE-CHOICE",
+                                TestId = testId
+                            });
+                        }
+                        await dbs.SaveChangesAsync();
+                        await transaction.CommitAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        await transaction.RollbackAsync();
+                        throw new Exception("Không nhập được file", e);
+                    }
+                }
             }
         }
     }

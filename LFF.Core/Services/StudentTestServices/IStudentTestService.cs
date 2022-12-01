@@ -15,5 +15,7 @@ namespace LFF.Core.Services.StudentTestServices
         Task<ResponseBase> ListStudentTestAsync(IEnumerable<SearchQueryItem> queries);
         Task<ResponseBase> DeleteStudentTestByIdAsync(Guid id);
         Task<ResponseBase> GetStudentTestHistory(Guid studentId, Guid testId);
+        Task<ResponseBase> GetTestStatusAsync(Guid studentTestId);
+        Task<ResponseBase> SubmitAsync(Guid id);
     }
 }

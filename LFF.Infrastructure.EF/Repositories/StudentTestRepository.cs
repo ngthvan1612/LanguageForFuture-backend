@@ -46,7 +46,8 @@ namespace LFF.Infrastructure.EF.Repositories
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
-                var query = dbs.Set<StudentTest>().Select(u => u).Where(u => u.DeletedAt == null);
+                var query = dbs.GetFixedStudentTests();
+
                 foreach (var q in queries)
                 {
                     var tokens = q.Name.ToLower().Split(".");
@@ -60,6 +61,43 @@ namespace LFF.Infrastructure.EF.Repositories
                             query = query.Where(u => u.StartDate <= DateTime.Parse(q.Values[0]));
                         else if (tokens[1] == "equal")
                             query = query.Where(u => u.StartDate == DateTime.Parse(q.Values[0]));
+                        else throw new ArgumentException($"Unknown query {q.Name}");
+                    }
+                    else if (tokens[0] == "student_id")
+                    {
+                        if (tokens[1] == "equal")
+                        {
+                            Guid studentId = Guid.Parse(q.Values[0]);
+                            query = query.Where(u => u.StudentId == studentId);
+                        }
+                        else throw new ArgumentException($"Unknown query {q.Name}");
+                    }
+                    else if (tokens[0] == "test_id")
+                    {
+                        if (tokens[1] == "equal")
+                        {
+                            Guid testId = Guid.Parse(q.Values[0]);
+                            query = query.Where(u => u.TestId == testId);
+                        }
+                        else throw new ArgumentException($"Unknown query {q.Name}");
+                    }
+                    else if (tokens[0] == "is_running")
+                    {
+                        if (tokens[1] == "equal")
+                        {
+                            if (q.Values[0] == "true")
+                            {
+                                query = from studentTest in query
+                                        join test in dbs.GetFixedTests() on studentTest.TestId equals test.Id
+                                        where studentTest.StartDate <= DateTime.Now && DateTime.Now <= studentTest.StartDate.Value.AddMinutes(test.Time ?? 0) && studentTest.SubmittedOn == null
+                                        select studentTest;
+                            }
+                            else if (q.Values[0] == "false")
+                            {
+                                //Nothing
+                            }
+                            else throw new ArgumentException($"Unknown value {q.Values[0]}");
+                        }
                         else throw new ArgumentException($"Unknown query {q.Name}");
                     }
                     else throw new ArgumentException($"Unknown query {q.Name}");
@@ -87,6 +125,36 @@ namespace LFF.Infrastructure.EF.Repositories
                     });
 
                 return result;
+            }
+        }
+
+        public async Task AutoChangeStateSubmission()
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var needUpdates = from studentTest in dbs.GetFixedStudentTests()
+                                  join test in dbs.GetFixedTests() on studentTest.TestId equals test.Id
+                                  where studentTest.StartDate.Value.AddMinutes(test.Time.Value) < DateTime.Now
+                                  where studentTest.SubmittedOn == null
+                                  select studentTest;
+
+                await needUpdates.ForEachAsync(u => u.SubmittedOn = DateTime.Now);
+
+                //foreach (var u in needUpdates)
+                //    Console.Write(u.Id);
+
+                await dbs.SaveChangesAsync();
+            }
+        }
+
+        public async Task SubmitTestAsync(Guid id)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var studentTest = dbs.StudentTests.FirstOrDefault(u => u.Id == id);
+                if (studentTest != null)
+                    studentTest.SubmittedOn = DateTime.Now;
+                await dbs.SaveChangesAsync();
             }
         }
     }

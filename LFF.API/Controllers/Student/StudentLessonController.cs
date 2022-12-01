@@ -25,7 +25,7 @@ namespace LFF.API.Controllers.Student
         public async Task<IActionResult> ListLessons()
         {
             var queries = this.TransferHttpQueriesToDomainSearchQueries();
-            var result = await this._lessonService.ListLessonAsync(queries);
+            var result = await this._lessonService.ListLessonAsync(queries, false);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
 

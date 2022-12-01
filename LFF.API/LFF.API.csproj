@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LFF.BackgroundService\LFF.BackgroundService.csproj" />
     <ProjectReference Include="..\LFF.Core\LFF.Core.csproj" />
     <ProjectReference Include="..\LFF.Infrastructure.EF\LFF.Infrastructure.EF.csproj" />
   </ItemGroup>

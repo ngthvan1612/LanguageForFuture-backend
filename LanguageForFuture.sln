@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LFF.Core", "LFF.Core\LFF.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LFF.Infrastructure.EF", "LFF.Infrastructure.EF\LFF.Infrastructure.EF.csproj", "{644895B0-41E8-4FE3-9C03-17F54AE5FCCD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LFF.BackgroundService", "LFF.BackgroundService\LFF.BackgroundService.csproj", "{BF1EC6EF-9C0C-46F2-A700-37F43724FB6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{644895B0-41E8-4FE3-9C03-17F54AE5FCCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{644895B0-41E8-4FE3-9C03-17F54AE5FCCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{644895B0-41E8-4FE3-9C03-17F54AE5FCCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF1EC6EF-9C0C-46F2-A700-37F43724FB6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF1EC6EF-9C0C-46F2-A700-37F43724FB6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF1EC6EF-9C0C-46F2-A700-37F43724FB6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF1EC6EF-9C0C-46F2-A700-37F43724FB6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

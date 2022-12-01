@@ -9,6 +9,7 @@ namespace LFF.Core.Services.ClassroomServices
 {
     public interface IClassroomService
     {
+        Task<ResponseBase> ListClassroomsWithNumberOfStudents();
         Task<ResponseBase> CreateClassroomAsync(CreateClassroomRequest request);
         Task<ResponseBase> UpdateClassroomByIdAsync(Guid id, UpdateClassroomRequest request);
         Task<ResponseBase> GetClassroomByIdAsync(Guid id);

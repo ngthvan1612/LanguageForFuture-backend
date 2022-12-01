@@ -2,6 +2,8 @@ using LFF.Core.Base;
 using LFF.Core.DTOs.Tests.Requests;
 using LFF.Core.DTOs.Tests.Responses;
 using LFF.Core.Entities;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace LFF.Core.Services.TestServices
@@ -66,6 +68,23 @@ namespace LFF.Core.Services.TestServices
             //Log
 
             return await Task.FromResult(new CreateTestResponse(entity));
+        }
+
+        public async Task<ResponseBase> ImportListQuestions(ImportListQuestionsRequest request)
+        {
+            if (await this.aggregateRepository.TestRepository.GetByIdAsync(request.TestId) == null)
+                throw BaseDomainException.BadRequest($"không tồn tại bài kiểm tra nào với id ={request.TestId}");
+
+            if (request.UploadFile == null)
+                throw BaseDomainException.BadRequest($"Vui lòng chọn một file để upload");
+
+            if (request.UploadFile.Length / 1024.0 / 1024 > 1)
+                throw BaseDomainException.BadRequest($"không được upload file lớn hơn 1MB");
+
+            Stream stream = request.UploadFile.OpenReadStream();
+            await this.aggregateRepository.TestRepository.ImportListQuestions(request.TestId, stream);
+
+            return SuccessResponseBase.Send("Nhập dữ liệu thành công");
         }
     }
 }

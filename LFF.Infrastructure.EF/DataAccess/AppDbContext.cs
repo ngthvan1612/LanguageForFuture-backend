@@ -1,6 +1,7 @@
 ﻿using LFF.Core.Entities;
 using LFF.Infrastructure.EF.Configuration;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace LFF.Infrastructure.EF.DataAccess
 {
@@ -27,6 +28,15 @@ namespace LFF.Infrastructure.EF.DataAccess
         public DbSet<StudentTest>? StudentTests { get; set; }
 
         public DbSet<StudentTestResult>? StudentTestResults { get; set; }
+
+        public IQueryable<User> GetFixedUsers() => this.Users.Where(u => u.DeletedAt == null);
+        public IQueryable<Course> GetFixedCourses() => this.Courses.Where(u => u.DeletedAt == null);
+        public IQueryable<Classroom> GetFixedClassrooms() => this.Classrooms.Where(u => u.DeletedAt == null);
+        public IQueryable<Register> GetFixedRegisters() => this.Registers.Where(u => u.DeletedAt == null);
+        public IQueryable<Test> GetFixedTests() => this.Tests.Where(u => u.DeletedAt == null);
+        public IQueryable<Question> GetFixedQuestions() => this.Questions.Where(u => u.DeletedAt == null);
+        public IQueryable<StudentTest> GetFixedStudentTests() => this.StudentTests.Where(u => u.DeletedAt == null);
+        public IQueryable<StudentTestResult> GetFixedStudentTestResults() => this.StudentTestResults.Where(u => u.DeletedAt == null);
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)

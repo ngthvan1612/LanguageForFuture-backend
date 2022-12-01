@@ -8,5 +8,7 @@ namespace LFF.Core.Repositories
     {
         Task<StudentTest> GetStudentTestByIdAsync(Guid id);
         Task<bool> CheckStudentTestExistedByIdAsync(Guid id);
+        Task AutoChangeStateSubmission();
+        Task SubmitTestAsync(Guid id);
     }
 }

@@ -14,5 +14,6 @@ namespace LFF.Core.Services.TestServices
         Task<ResponseBase> GetTestByIdAsync(Guid id);
         Task<ResponseBase> ListTestAsync(IEnumerable<SearchQueryItem> queries);
         Task<ResponseBase> DeleteTestByIdAsync(Guid id);
+        Task<ResponseBase> ImportListQuestions(ImportListQuestionsRequest request);
     }
 }

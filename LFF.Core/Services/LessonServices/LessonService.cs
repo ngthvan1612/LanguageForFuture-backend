@@ -3,7 +3,7 @@ using LFF.Core.Repositories;
 
 namespace LFF.Core.Services.LessonServices
 {
-    public partial class LessonService : BaseService, ILessonService
+    public partial class LessonService : BaseService
     {
         private readonly IAggregateRepository aggregateRepository;
 

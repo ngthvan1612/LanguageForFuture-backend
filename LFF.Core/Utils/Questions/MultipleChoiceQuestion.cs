@@ -45,7 +45,7 @@ namespace LFF.Core.Utils.Questions
 
         public object Clone()
         {
-            return new MultipleChoiceQuestionContent("");
+            return new MultipleChoiceQuestionContent(this.Raw);
         }
     }
 
@@ -78,12 +78,14 @@ namespace LFF.Core.Utils.Questions
         /// Chế độ xem (truyền cho học viên): xóa bỏ các trường liên quan đến kết quả
         /// </summary>
         /// <returns></returns>
-        public MultipleChoiceQuestion AsView()
+        public override QuestionModelAbstract AsView()
         {
             var question = new MultipleChoiceQuestion()
             {
                 Question = (MultipleChoiceQuestionContent)this.Question.Clone(),
-                Answer = this.Answer,
+                Meta = this.Meta,
+                Choices = this.Choices,
+                Answer = null,
             };
             return question;
         }

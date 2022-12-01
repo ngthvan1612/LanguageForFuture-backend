@@ -233,5 +233,15 @@ namespace LFF.Infrastructure.EF.Repositories
                 return await query.ToListAsync();
             }
         }
+
+        public async Task UpdatePasswordByIdAsync(Guid userId, string? password)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var userEntity = dbs.Users.FirstOrDefault(u => u.Id == userId);
+                userEntity.Password = this.passwordHasherManaged.GetHashedPassword(password);
+                await dbs.SaveChangesAsync();
+            }
+        }
     }
 }
