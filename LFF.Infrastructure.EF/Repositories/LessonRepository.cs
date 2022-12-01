@@ -99,6 +99,21 @@ namespace LFF.Infrastructure.EF.Repositories
                     }
                     else throw new ArgumentException($"Unknown query {q.Name}");
                 }
+                else if (tokens[0] == "student_id")
+                {
+                    if (tokens[1] == "equal")
+                    {
+                        Guid studentId = Guid.Parse(q.Values[0]);
+
+                        query = from lesson in query
+                                join classroom in dbs.GetFixedClassrooms() on lesson.ClassId equals classroom.Id
+                                join register in dbs.GetFixedRegisters() on classroom.Id equals register.ClassId
+                                join student in dbs.GetFixedUsers() on register.StudentId equals student.Id
+                                where student.Id == studentId
+                                select lesson;
+                    }
+                    else throw new ArgumentException($"Unknown query {q.Name}");
+                }
                 else throw new ArgumentException($"Unknown query {q.Name}");
             }
 
