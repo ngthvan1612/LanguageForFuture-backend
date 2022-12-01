@@ -28,7 +28,7 @@ namespace LFF.BackgroundServices.AutoSubmit
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    //Console.WriteLine(e.Message);
                 }
                 await Task.Delay(250);
             }

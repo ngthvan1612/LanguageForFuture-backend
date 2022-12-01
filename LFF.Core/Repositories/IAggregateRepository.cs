@@ -1,3 +1,6 @@
+using System;
+using System.Threading.Tasks;
+
 namespace LFF.Core.Repositories
 {
     public interface IAggregateRepository

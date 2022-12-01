@@ -18,7 +18,7 @@ namespace LFF.Core.Services.ClassroomServices
 
             if (entity == null)
                 throw BaseDomainException.NotFound($"Không tìm thấy lớp học nào với Id = {id}");
-            Console.WriteLine("lay du lieu xong");
+            //Console.WriteLine("lay du lieu xong");
             return await Task.FromResult(new GetClassroomResponse(entity));
         }
 
