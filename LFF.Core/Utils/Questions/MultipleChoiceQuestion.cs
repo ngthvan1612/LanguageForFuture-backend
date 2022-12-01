@@ -85,7 +85,7 @@ namespace LFF.Core.Utils.Questions
                 Question = (MultipleChoiceQuestionContent)this.Question.Clone(),
                 Meta = this.Meta,
                 Choices = this.Choices,
-                Answer = "",
+                Answer = null,
             };
             return question;
         }
