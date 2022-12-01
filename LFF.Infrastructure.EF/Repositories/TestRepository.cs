@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -278,6 +279,63 @@ namespace LFF.Infrastructure.EF.Repositories
                                 studentTest.StartDate <= currentDatetime && currentDatetime <= studentTest.StartDate.Value.AddMinutes(test.Time ?? 0)
                             select 1;
                 return await query.AnyAsync();
+            }
+        }
+
+        public async Task ImportListQuestions(Guid testId, Stream stream)
+        {
+            using var reader = new StreamReader(stream);
+            string jsonStr = await reader.ReadToEndAsync();
+            dynamic json;
+            List<QuestionModelAbstract> questions = new List<QuestionModelAbstract>();
+            try
+            {
+                json = JsonConvert.DeserializeObject(jsonStr);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Không đọc được dữ liệu");
+            }
+            int counter = 0;
+            foreach (var question in json)
+            {
+                counter++;
+                try
+                {
+                    var questionInstance = QuestionModelFactory.FromJsonString(JsonConvert.SerializeObject(question));
+                    questions.Add(questionInstance);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Câu {counter} lỗi: {e.Message}");
+                }
+            }
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                using (var transaction = await dbs.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        foreach (var question in questions)
+                        {
+                            dbs.Questions.Add(new Question()
+                            {
+                                Content = QuestionModelFactory.ToJsonString(question),
+                                CreatedAt = DateTime.Now,
+                                LastUpdatedAt = DateTime.Now,
+                                QuestionType = "MULTIPLE-CHOICE",
+                                TestId = testId
+                            });
+                        }
+                        await dbs.SaveChangesAsync();
+                        await transaction.CommitAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        await transaction.RollbackAsync();
+                        throw new Exception("Không nhập được file", e);
+                    }
+                }
             }
         }
     }

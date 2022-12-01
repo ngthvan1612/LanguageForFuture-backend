@@ -57,5 +57,13 @@ namespace LFF.API.Controllers.Teacher
             var result = await this._testService.DeleteTestByIdAsync(id);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
+
+        [HttpPost("{id:guid}/upload")]
+        public async Task<IActionResult> UploadListQuestions(Guid id, [FromForm] ImportListQuestionsRequest request)
+        {
+            request.TestId = id;
+            var result = await this._testService.ImportListQuestions(request);
+            return this.StatusCode((int)result.GetStatusCode(), result);
+        }
     }
 }
