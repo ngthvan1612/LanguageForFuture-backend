@@ -17,7 +17,7 @@ namespace LFF.Core.Services.StudentTestServices
         public async Task<ResponseBase> SubmitAsync(Guid id)
         {
             if (await this.aggregateRepository.StudentTestRepository.CheckStudentTestExistedByIdAsync(id) == false)
-                throw BaseDomainException.BadRequest($"Không tồn tại bất kì bài thi nào có id = {Id}");
+                throw BaseDomainException.BadRequest($"Không tồn tại bất kì bài thi nào có id = {id}");
 
             await this.aggregateRepository.StudentTestRepository.SubmitTestAsync(id);
 
