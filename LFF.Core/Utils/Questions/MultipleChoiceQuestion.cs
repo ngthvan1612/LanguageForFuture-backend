@@ -96,7 +96,9 @@ namespace LFF.Core.Utils.Questions
             {
                 Meta = (QuestionModelBaseMeta)this.Meta.Clone(),
                 Question = (MultipleChoiceQuestionContent)this.Question.Clone(),
-                Choices = this.Choices.Select(u => (MultipleChoiceResponse)u.Clone()).ToList()
+                Choices = this.Choices.Select(u => (MultipleChoiceResponse)u.Clone()).ToList(),
+                Solutions = this.Solutions.Select(u => u).ToList(),
+                Answer = this.Answer,
             };
         }
 
