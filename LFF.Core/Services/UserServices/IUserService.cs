@@ -19,5 +19,6 @@ namespace LFF.Core.Services.UserServices
         Task<ResponseBase> ListUserAsync(IEnumerable<SearchQueryItem> queries);
         Task<ResponseBase> DeleteUserByIdAsync(Guid id);
         Task<ResponseBase> UpdatePasswordByIdAsync(UpdatePasswordRequest request);
+        Task<ResponseBase> ChangePasswordByIdAsync(ChangePasswordRequest request);
     }
 }

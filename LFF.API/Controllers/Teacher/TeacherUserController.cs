@@ -1,6 +1,7 @@
 using LFF.API.Extensions;
 using LFF.API.Helpers.Authorization;
 using LFF.API.Helpers.Authorization.Users;
+using LFF.Core.DTOs.Users.Requests;
 using LFF.Core.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -33,6 +34,14 @@ namespace LFF.API.Controllers.Teacher
         public async Task<IActionResult> GetUser(Guid id)
         {
             var result = await this._userService.GetUserByIdAsync(id);
+            return this.StatusCode((int)result.GetStatusCode(), result);
+        }
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+        {
+            request.UserId = this.GetCurrentLoginedUser().Id;
+            var result = await this._userService.ChangePasswordByIdAsync(request);
             return this.StatusCode((int)result.GetStatusCode(), result);
         }
     }

@@ -93,5 +93,14 @@ namespace LFF.Core.Services.UserServices
 
             return SuccessResponseBase.Send("Cập nhật mật khẩu thành công");
         }
+
+        public async Task<ResponseBase> ChangePasswordByIdAsync(ChangePasswordRequest request)
+        {
+            var testUser = await this.aggregateRepository.UserRepository.GetUserByIdAndPassword(request.UserId, request.OldPassword ?? "");
+            if (testUser == null)
+                throw BaseDomainException.BadRequest($"Mật khẩu cũ không đúng");
+            await this.aggregateRepository.UserRepository.UpdatePasswordByIdAsync(request.UserId, request.NewPassword);
+            return SuccessResponseBase.Send("Đổi mật khẩu thành công");
+        }
     }
 }
