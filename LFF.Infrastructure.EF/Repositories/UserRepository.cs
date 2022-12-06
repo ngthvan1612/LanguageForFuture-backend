@@ -65,7 +65,7 @@ namespace LFF.Infrastructure.EF.Repositories
         {
             using (var dbs = this.dbFactory.CreateDbContext())
             {
-                var user = await dbs.Users.FirstOrDefaultAsync(u => u.Username == username);
+                var user = await dbs.Users.Where(u => u.DeletedAt == null).FirstOrDefaultAsync(u => u.Username == username);
                 
                 if (user is null)
                     return null;
@@ -241,6 +241,25 @@ namespace LFF.Infrastructure.EF.Repositories
                 var userEntity = dbs.Users.FirstOrDefault(u => u.Id == userId);
                 userEntity.Password = this.passwordHasherManaged.GetHashedPassword(password);
                 await dbs.SaveChangesAsync();
+            }
+        }
+
+        public async Task<User> GetUserByIdAndPassword(Guid userId, string password)
+        {
+            using (var dbs = this.dbFactory.CreateDbContext())
+            {
+                var user = await dbs.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+                if (user is null)
+                    return null;
+
+                if (this.passwordHasherManaged.CheckPassword(password, user.Password))
+                {
+                    user.Password = null;
+                    return user;
+                }
+
+                return null;
             }
         }
     }
